@@ -36,7 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeAddminScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const HomeAdminScreen()),
                 );
               })
         ], // remove back button

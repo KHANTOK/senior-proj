@@ -6,14 +6,14 @@ import 'package:proj/screen/User/search_screen.dart';
 import 'package:proj/screen/login.dart';
 import 'package:proj/widget/showTitle.dart';
 
-class HomeAddminScreen extends StatefulWidget {
-  const HomeAddminScreen({Key? key}) : super(key: key);
+class HomeAdminScreen extends StatefulWidget {
+  const HomeAdminScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeAddminScreenState createState() => _HomeAddminScreenState();
+  _HomeAdminScreenState createState() => _HomeAdminScreenState();
 }
 
-class _HomeAddminScreenState extends State<HomeAddminScreen> {
+class _HomeAdminScreenState extends State<HomeAdminScreen> {
   // List<String> nameAd = ["มานี มานะ", "กล้าแก้ว ชูใจ ", "โกโกวา ที่หนูอยากได้"];
 
   @override
@@ -104,7 +104,8 @@ class _HomeAddminScreenState extends State<HomeAddminScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ManageDeviceScreen()));
+                                builder: (context) =>
+                                    const ManageDeviceScreen()));
                       },
                     )
                   ],
