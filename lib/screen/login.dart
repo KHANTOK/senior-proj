@@ -99,10 +99,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 label: "เข้าสู่ระบบ",
                                 onPressed: () async {
                                   if (formKey.currentState!.validate()) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
                                     var login = await LoginService(
                                         email.text, password.text);
                                     setState(() {
-                                      isLoading = true;
+                                      isLoading = false;
                                     });
                                     if (login.status == "user") {
                                       Navigator.push(
@@ -125,7 +128,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                                 height: 48,
                                 width: 300),
-                          )
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
                         ],
                       ),
                     ),
