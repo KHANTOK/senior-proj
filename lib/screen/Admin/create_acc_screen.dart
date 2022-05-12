@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
 import 'package:proj/widget/button.dart';
 
+import '../../components/Loading.dart';
+import '../../services/AccountService.dart';
+
 class CreateAccScreen extends StatefulWidget {
   const CreateAccScreen({Key? key}) : super(key: key);
 
@@ -15,6 +18,18 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
 
   // Group Value for Radio Button.
   int id = 1;
+
+  // ตัวแปรสำหรับรับค่าจาก TextField และ call api
+  TextEditingController nameController = TextEditingController();
+  TextEditingController idController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneNoController = TextEditingController();
+
+  // ตัวแปรสำหรับ call api
+  String access = "";
+  String status = "";
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +88,16 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                   ),
                   const Text(
                     'ผู้ดูแล',
-                    style:  TextStyle(
+                    style: TextStyle(
                       fontSize: 17.0,
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 15),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'ชื่อและนามสกุล',
                   labelStyle: TextStyle(color: kPrimaryColor),
@@ -89,32 +105,36 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: idController,
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'ไอดี',
                     labelStyle: TextStyle(color: kPrimaryColor),
                     helperText: 'ตัวอย่าง : 613040600-9'),
               ),
               const SizedBox(height: 15),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'อีเมล',
                     labelStyle: TextStyle(color: kPrimaryColor),
                     helperText: 'ตัวอย่าง : manee@kku.ac.th'),
               ),
               const SizedBox(height: 15),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: phoneNoController,
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'หมายเลขโทรศัพท์',
                     labelStyle: TextStyle(color: kPrimaryColor),
                     helperText: 'ตัวอย่าง : 0812345679'),
               ),
               const SizedBox(height: 15),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'รหัสผ่าน',
                     labelStyle: TextStyle(color: kPrimaryColor),
@@ -123,10 +143,39 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
               const SizedBox(height: 30),
               SizedBox(
                 child: AppsButton.button(
-                    label: "สร้างบัญชี",
-                    onPressed: () {
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) => ));
+                    label: isLoading ? "กำลังสร้างบัญชี.." : "สร้างบัญชี", 
+                    onPressed: () async {
+                      // เช็ค radio button เพื่อจะ set ค่าให้ access กับ status
+                      if (radioButtonItem == "นักเรียน/นักศึกษา") {
+                        setState(() {
+                          access = "นักศึกษา";
+                          status = "user";
+                        });
+                      } else {
+                        setState(() {
+                          access = "อาจารย์";
+                          status = "admin";
+                        });
+                      }
+                      // call api create account
+                      setState(() {
+                        isLoading = true;
+                      });
+                      await CreateAccountService(
+                        nameController.text,
+                        idController.text,
+                        emailController.text,
+                        passwordController.text,
+                        phoneNoController.text,
+                        status,
+                        access,
+                      );
+                      setState(() {
+                        isLoading = false;
+                      });
+
+                      // after create account จะย้อนกลับไปหน้าก่อนหน้านี้
+                      Navigator.pop(context);
                     },
                     height: 48,
                     width: 300),

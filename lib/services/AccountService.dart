@@ -14,3 +14,35 @@ Future<AccountModel> LoginService(String email, String password) async {
   );
   return AccountModel.fromJson(jsonDecode(response.body));
 }
+
+Future<dynamic> CreateAccountService(
+  String name,
+  String id,
+  String email,
+  String password,
+  String phoneNo,
+  String status,
+  String access,
+) async {
+  try {
+    final String url = Host + "/api/account";
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'name': name,
+        'id': id,
+        'email': email,
+        'password': password,
+        'phoneNo': phoneNo,
+        'status': status,
+        'access': access,
+      }),
+    );
+    return "success";
+  } catch (e) {
+    print(e);
+  }
+}
