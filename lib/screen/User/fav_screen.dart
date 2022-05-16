@@ -4,15 +4,18 @@ import 'package:proj/color.dart';
 import 'package:proj/screen/User/profile_screen.dart';
 import 'package:proj/screen/User/search_screen.dart';
 
-class FavScreen extends StatefulWidget {
-  // final int id;
-  // final String img;
-  // final String name;
-  // final String time;
-  // final List allremain;
+import '../../components/Loading.dart';
+import '../../model/DeviceModel.dart';
+import '../../services/FavoriteService.dart';
+import 'device_detail_screen.dart';
 
+class FavScreen extends StatefulWidget {
+  final String name;
+  final String email;
   const FavScreen({
     Key? key,
+    required this.name,
+    required this.email,
   }) : super(key: key);
 
   @override
@@ -20,124 +23,163 @@ class FavScreen extends StatefulWidget {
 }
 
 class _FavScreenState extends State<FavScreen> {
+  List<DeviceModel> devices = [];
+  bool isLoading = false;
+  @override
+  void initState() {
+    getFavorite();
+    super.initState();
+  }
+
+  void getFavorite() async {
+    setState(() {
+      isLoading = true;
+    });
+    var response = await FavoriteService();
+    setState(() {
+      devices = response;
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // var favBloc;
-
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: const Text(
-            "รายการโปรด",
-            style: TextStyle(color: Colors.black, fontSize: 22),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text(
+          "รายการโปรด",
+          style: TextStyle(color: Colors.black, fontSize: 22),
+        ),
+        // remove back button
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            color: kPrimaryColor,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SearchScreen(
+                          name: widget.name,
+                          email: widget.email,
+                        )),
+              );
+            },
           ),
-          // remove back button
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.search),
+          IconButton(
+              icon: const Icon(Icons.account_circle),
+              iconSize: 24,
               color: kPrimaryColor,
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SearchScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => ProfileScreen(
+                            name: widget.name,
+                            email: widget.email,
+                          )),
                 );
-              },
+              }),
+        ],
+      ),
+      body: isLoading
+          ? Center(child: LoadingCircle())
+          : SingleChildScrollView(
+              child: Column(
+              children: [
+                for (var i = 0; i < devices.length; i++)
+                  cardItem(devices[i].image, devices[i].id,
+                      devices[i].totalAvailable.toString(), 5),
+              ],
+            )),
+    );
+  }
+
+  Widget cardItem(
+      String img, String name, String totalAvailable, int duration) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.18,
+      margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(1, 7),
+            blurRadius: 10,
+            spreadRadius: 2,
+            color: Color.fromARGB(197, 199, 199, 199),
+          )
+        ],
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DeviceDetailScreen(
+                        id: name,
+                        image: img,
+                        name: widget.name,
+                              email: widget.email,
+                      )));
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              width: 20,
             ),
-            IconButton(
-                icon: const Icon(Icons.account_circle),
-                iconSize: 24,
-                color: kPrimaryColor,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ProfileScreen()),
-                  );
-                }),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: AvatarView(
+                radius: 40,
+                borderColor: Colors.white,
+                avatarType: AvatarType.RECTANGLE,
+                backgroundColor: Colors.red,
+                imagePath: img,
+                placeHolder: const Icon(
+                  Icons.person,
+                  size: 50,
+                ),
+                errorWidget: const Icon(
+                  Icons.error,
+                  size: 50,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name,
+                    style: const TextStyle(
+                        color: accentColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)),
+                Text(
+                  'ระยะการยืม : ' + duration.toString() + ' วัน',
+                  style: const TextStyle(color: timeColor, fontSize: 14),
+                ),
+                Text(
+                  'คงเหลือทั้งหมด : ' + totalAvailable.toString(),
+                  style: const TextStyle(
+                      color: remainColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
           ],
         ),
-        // body: Center(
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(20.0),
-        //     child: Column(
-        //         // mainAxisAlignment: MainAxisAlignment.center,
-        //         children: <Widget>[
-        //           ListView.builder(
-        //             // itemCount: favBloc.items.length,
-        //             itemBuilder: (context, index) => Padding(
-        //               padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-        //               child: Container(
-        //                 height: 170,
-        //                 child: Card(
-        //                   color: Colors.white,
-        //                   elevation: 6,
-        //                   margin: const EdgeInsets.symmetric(vertical: 10),
-        //                   child: Column(
-        //                     mainAxisAlignment: MainAxisAlignment.center,
-        //                     children: [
-        //                       ListTile(
-        //                           leading: AvatarView(
-        //                             radius: 40,
-        //                             borderColor: Colors.white,
-        //                             avatarType: AvatarType.RECTANGLE,
-        //                             backgroundColor: Colors.red,
-        //                             // imagePath: favBloc.items[index].leading,
-        //                             placeHolder: Container(
-        //                               child: const Icon(
-        //                                 Icons.person,
-        //                                 size: 50,
-        //                               ),
-        //                             ),
-        //                             errorWidget: Container(
-        //                               child: const Icon(
-        //                                 Icons.error,
-        //                                 size: 50,
-        //                               ),
-        //                             ),
-        //                           ),
-        //                           title: const Text('555555',
-        //                             // favBloc.items[index].title,
-        //                               style: TextStyle(
-        //                                   color: accentColor,
-        //                                   fontSize: 20,
-        //                                   fontWeight: FontWeight.bold)),
-        //                           subtitle: Column(
-        //                             crossAxisAlignment:
-        //                                 CrossAxisAlignment.start,
-        //                             children: const <Widget>[
-        //                               Text('66666',
-        //                                 // favBloc.items[index].title,
-        //                                 style: TextStyle(
-        //                                     color: timeColor, fontSize: 14),
-        //                               ),
-        //                               Text(
-        //                                 'คงเหลือทั้งหมด : 40',
-        //                                 style: TextStyle(
-        //                                     color: remainColor,
-        //                                     fontSize: 18,
-        //                                     fontWeight: FontWeight.bold),
-        //                               )
-        //                             ],
-        //                           ),
-        //                           // trailing: Icon(Icons.close),
-        //                           onTap: () {
-        //                             // Navigator.push(
-        //                             //     context,
-        //                             //     MaterialPageRoute(
-        //                             //         builder: (context) =>
-        //                             //             DetailScreen()));
-        //                           })
-        //                     ],
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           )
-        //         ]),
-        //   ),
-        // )
-        );
+      ),
+    );
   }
 }

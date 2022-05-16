@@ -8,15 +8,20 @@ import 'package:proj/widget/showTitle.dart';
 import '../../components/Loading.dart';
 import '../../model/DeviceDetailModel.dart';
 import '../../services/DeviceService.dart';
+import '../../services/FavoriteService.dart';
 
 class DeviceDetailScreen extends StatefulWidget {
   final String id;
   final String image;
+  final String name;
+  final String email;
 
   const DeviceDetailScreen({
     Key? key,
     required this.id,
     required this.image,
+    required this.name,
+    required this.email,
   }) : super(key: key);
 
   @override
@@ -28,8 +33,8 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
   List<Map<String, dynamic>> _favDeviceList = [];
   bool toggle = false;
   bool isLoading = false;
-  DeviceDetailModel deviceDetail =
-      DeviceDetailModel(id: '', description: '', accession: '', location: []);
+  DeviceDetailModel deviceDetail = DeviceDetailModel(
+      id: '', favorite: false, description: '', accession: '', location: []);
 
   @override
   void initState() {
@@ -44,70 +49,54 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
     var response = await DeviceDetailService(widget.id);
     setState(() {
       deviceDetail = response;
+      toggle = deviceDetail.favorite;
       isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // var favBloc = List.of(FavoriteBloc());
-
-    return isLoading
-        ? LoadingCircle()
-        : Scaffold(
-            appBar: AppBar(
-              toolbarHeight: 65,
-              backgroundColor: Colors.white,
-              elevation: 0,
-              centerTitle: true,
-              title: showTitle(),
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new,
-                ),
-                color: kPrimaryColor,
-                //iconSize: 24,
-                onPressed: () {
-                  Navigator.pop(context)
-                      // push(context,
-                      //     MaterialPageRoute(builder: (context) => FirstScreen()))
-                      ;
-                },
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    // ItemModel itemModel = new ItemModel(
-                    //   leading: 'assets/images/applePen.png',
-                    //   title: deviceDetail.id,
-                    //   subTitle: deviceDetail.description,
-                    // );
-
-                    // favBloc.addItems(itemModel);
-
-                    setState(() {
-                      // Here we changing the icon.
-                      toggle = !toggle;
-                      // _favDeviceList.add(_allDevice[index]);
-                    });
-                  },
-                  // onPressed: () {
-                  //   Navigator.push(context,
-                  //       MaterialPageRoute(builder: (context) => FavScreen()));
-                  // },
-                  icon: toggle
-                      ? const Icon(
-                          Icons.favorite,
-                          color: kPrimaryColor,
-                        )
-                      : const Icon(
-                          Icons.favorite_border,
-                          color: kPrimaryColor,
-                        ),
-                )
-              ],
-            ),
-            body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 65,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: showTitle(),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+          ),
+          color: kPrimaryColor,
+          //iconSize: 24,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              setState(() {
+                // Here we changing the icon.
+                toggle = !toggle;
+              });
+              await updateFavoriteService(widget.id, toggle);
+            },
+            icon: toggle
+                ? const Icon(
+                    Icons.favorite,
+                    color: kPrimaryColor,
+                  )
+                : const Icon(
+                    Icons.favorite_border,
+                    color: kPrimaryColor,
+                  ),
+          )
+        ],
+      ),
+      body: isLoading
+          ? LoadingCircle()
+          : SingleChildScrollView(
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -166,10 +155,10 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                           text: TextSpan(
                             text: 'ระยะการยืม : ',
                             style: Theme.of(context).textTheme.bodyText1,
-                            children: <TextSpan>[
+                            children: const <TextSpan>[
                               TextSpan(
                                   text: '.. วัน',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: 16, color: Colors.black))
                             ],
                           ),
@@ -186,52 +175,50 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                       height: 20,
                     ),
                     Wrap(
-                        spacing: 15.0,
-                        runSpacing: 6.0,
-                        children: List.generate(
-                          deviceDetail.location.length,
-                          (index) {
-                            return ActionChip(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SearchScreen()));
-                              },
-                              labelPadding: const EdgeInsets.all(2.0),
-                              avatar: CircleAvatar(
-                                backgroundColor: Colors.white70,
-                                child: Text(deviceDetail.location[index].count
-                                    .toString()),
+                      alignment: WrapAlignment.center,
+                      spacing: 15.0,
+                      runSpacing: 6.0,
+                      children: List.generate(
+                        deviceDetail.location.length,
+                        (index) {
+                          return ActionChip(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SearchScreen(
+                                            name: widget.name,
+                                            email: widget.email,
+                                          )));
+                            },
+                            labelPadding: const EdgeInsets.all(2.0),
+                            avatar: CircleAvatar(
+                              backgroundColor: Colors.white70,
+                              child: Text(deviceDetail.location[index].count
+                                  .toString()),
+                            ),
+                            label: Text(
+                              deviceDetail.location[index].locationName,
+                              style: const TextStyle(
+                                color: Colors.black,
                               ),
-                              label: Text(
-                                deviceDetail.location[index].locationName,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                              backgroundColor: Colors.white,
-                              elevation: 6.0,
-                              shadowColor: kPrimaryColor,
-                              // Colors.grey[60],
-                              padding: const EdgeInsets.all(8.0),
-                            );
-                          },
-                        ))
-                    // chipList(),
-                    // SizedBox(
-                    //   child: AppsButton.button(
-                    //       label: "เพิ่มในรายการโปรด",
-                    //       onPressed: () {
-                    //         Navigator.push(context,
-                    //             MaterialPageRoute(builder: (context) => FavScreen()));
-                    //       }),
-                    // ),
+                            ),
+                            backgroundColor: Colors.white,
+                            elevation: 6.0,
+                            shadowColor: kPrimaryColor,
+                            // Colors.grey[60],
+                            padding: const EdgeInsets.all(8.0),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    )
                   ],
                 ),
               ),
             ),
-          );
+    );
   }
 }

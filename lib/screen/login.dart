@@ -22,79 +22,79 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? LoadingCircle()
-        : Scaffold(
-            body: Center(
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Form(
-                    key: formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/LogoKKU.png',
-                                height: 100,
-                                width: 100,
+    return Scaffold(
+      body: Center(
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/LogoKKU.png',
+                          height: 100,
+                          width: 100,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const <Widget>[
+                            Text(
+                              "KKUL",
+                              style: TextStyle(
+                                fontSize: 50,
+                                color: Colors.blue,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    "KKUL",
-                                    style: TextStyle(
-                                      fontSize: 50,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  Text(
-                                    "มหาวิทยาลัยขอนแก่น",
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.blue),
-                                  ),
-                                  Text(
-                                    "Khon Kaen University Library",
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.blue),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 70,
-                          ),
-                          TextFormField(
-                            controller: email,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "ชื่อผู้ใช้"),
-                            validator:
-                                RequiredValidator(errorText: "กรุณากรอกอีเมล์"),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          TextFormField(
-                            controller: password,
-                            decoration: const InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: "รหัสผ่าน",
                             ),
-                            obscureText: true,
-                            validator: RequiredValidator(
-                                errorText: "กรุณากรอกรหัสผ่าน"),
-                          ),
-                          const SizedBox(
-                            height: 70,
-                          ),
-                          SizedBox(
+                            Text(
+                              "มหาวิทยาลัยขอนแก่น",
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.blue),
+                            ),
+                            Text(
+                              "Khon Kaen University Library",
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.blue),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 70,
+                    ),
+                    TextFormField(
+                      controller: email,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "ชื่อผู้ใช้"),
+                      validator:
+                          RequiredValidator(errorText: "กรุณากรอกอีเมล์"),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      controller: password,
+                      decoration: const InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: "รหัสผ่าน",
+                      ),
+                      obscureText: true,
+                      validator:
+                          RequiredValidator(errorText: "กรุณากรอกรหัสผ่าน"),
+                    ),
+                    const SizedBox(
+                      height: 70,
+                    ),
+                    isLoading
+                        ? LoadingCircle()
+                        : SizedBox(
                             child: AppsButton.button(
                                 label: "เข้าสู่ระบบ",
                                 onPressed: () async {
@@ -111,16 +111,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SearchScreen(),
+                                          builder: (context) => SearchScreen(
+                                            name: login.name,
+                                            email: login.email,
+                                          ),
                                         ),
                                       );
                                     } else {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const HomeAdminScreen(),
+                                          builder: (context) => HomeAdminScreen(
+                                            name: login.name,
+                                            email: login.email,
+                                          ),
                                         ),
                                       );
                                     }
@@ -129,16 +133,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 48,
                                 width: 300),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ),
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
-          );
+          ),
+        ),
+      ),
+    );
   }
 }

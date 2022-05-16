@@ -12,7 +12,13 @@ import '../../model/DeviceModel.dart';
 import '../../services/DeviceService.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  final String name;
+  final String email;
+  const SearchScreen({
+    Key? key,
+    required this.name,
+    required this.email,
+  }) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -25,10 +31,11 @@ class _SearchScreenState extends State<SearchScreen> {
 
   // This list holds the data for the list view
   // (ลิสต์เก็บข้อมูลค้นหา)
-  List<String> _foundDeviceName = [];
-  List<int> _foundDeviceTotalAvailable = [];
-  List<String> _foundDeviceImg = [];
-  List<int> _foundDeviceDuration = [];
+  final List<String> _foundDeviceName = [];
+  final List<int> _foundDeviceTotalAvailable = [];
+  final List<String> _foundDeviceImg = [];
+  final List<int> _foundDeviceDuration = [];
+  final List<bool> _foundDeviceFavorite = [];
   List<DeviceModel> device = [];
   bool isLoading = false;
   bool isSearching = false;
@@ -63,6 +70,7 @@ class _SearchScreenState extends State<SearchScreen> {
       _foundDeviceTotalAvailable.clear();
       _foundDeviceImg.clear();
       _foundDeviceDuration.clear();
+      _foundDeviceFavorite.clear();
     });
     for (var i = 0; i < device.length; i++) {
       if (device[i].id.toLowerCase().contains(enteredKeyword.toLowerCase())) {
@@ -73,6 +81,7 @@ class _SearchScreenState extends State<SearchScreen> {
         _foundDeviceTotalAvailable.add(device[i].totalAvailable);
         _foundDeviceImg.add(device[i].image);
         _foundDeviceDuration.add(5);
+        _foundDeviceFavorite.add(device[i].favorite);
       }
     }
     // we use the toLowerCase() method to make it case-insensitive
@@ -81,104 +90,116 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? LoadingCircle()
-        : Scaffold(
-            appBar: AppBar(
-              titleSpacing: 2,
-              toolbarHeight: 65,
-              //centerTitle: true,
-              backgroundColor: Colors.white,
-              elevation: 0,
-              title: showTitle(),
-              actions: [
-                IconButton(
-                    icon: const Icon(Icons.account_circle),
-                    iconSize: 24,
-                    color: kPrimaryColor,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ProfileScreen()),
-                      );
-                    }),
-                IconButton(
-                    icon: const Icon(Icons.logout),
-                    iconSize: 24,
-                    color: kPrimaryColor,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen()),
-                      );
-                    })
-              ],
-              // remove back button
-              automaticallyImplyLeading: false,
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
-                    child: TextField(
-                      onChanged: (value) {
-                        if (value.isEmpty) {
-                          setState(() {
-                            isSearching = false;
-                          });
-                        } else {
-                          _runFilter(value);
-                          setState(() {
-                            isSearching = true;
-                          });
-                        }
-                      },
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'ค้นหา',
-                          hintText: 'หอสมุดกลาง',
-                          suffixIcon: Icon(Icons.search),
-                          contentPadding: EdgeInsets.all(15)),
+    return Scaffold(
+        appBar: AppBar(
+          titleSpacing: 2,
+          toolbarHeight: 65,
+          //centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: showTitle(),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.account_circle),
+                iconSize: 24,
+                color: kPrimaryColor,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                              name: widget.name,
+                              email: widget.email,
+                            )),
+                  );
+                }),
+            IconButton(
+                icon: const Icon(Icons.logout),
+                iconSize: 24,
+                color: kPrimaryColor,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                  );
+                })
+          ],
+          // remove back button
+          automaticallyImplyLeading: false,
+        ),
+        body: isLoading
+            ? LoadingCircle()
+            : SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
+                      child: TextField(
+                        onChanged: (value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              isSearching = false;
+                            });
+                          } else {
+                            _runFilter(value);
+                            setState(() {
+                              isSearching = true;
+                            });
+                          }
+                        },
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'ค้นหา',
+                            hintText: 'หอสมุดกลาง',
+                            suffixIcon: Icon(Icons.search),
+                            contentPadding: EdgeInsets.all(15)),
+                      ),
                     ),
-                  ),
-                  Column(
-                    children: isSearching
-                        ? isFound
-                            ? [
-                                for (var i = 0;
-                                    i < _foundDeviceName.length;
-                                    i++)
-                                  cardItem(
+                    Column(
+                      children: isSearching
+                          ? isFound
+                              ? [
+                                  for (var i = 0;
+                                      i < _foundDeviceName.length;
+                                      i++)
+                                    cardItem(
                                       _foundDeviceImg[i],
                                       _foundDeviceName[i],
                                       _foundDeviceTotalAvailable[i].toString(),
-                                      _foundDeviceDuration[i]),
-                              ]
-                            : [
-                                const Text(
-                                  'No results found',
-                                  style: TextStyle(
-                                      fontSize: 24, color: Colors.black),
+                                      _foundDeviceDuration[i],
+                                    )
+                                ]
+                              : [
+                                  const Text(
+                                    'No results found',
+                                    style: TextStyle(
+                                        fontSize: 24, color: Colors.black),
+                                  )
+                                ]
+                          : [
+                              for (var i = 0; i < device.length; i++)
+                                cardItem(
+                                  device[i].image,
+                                  device[i].id,
+                                  device[i].totalAvailable.toString(),
+                                  5,
                                 )
-                              ]
-                        : [
-                            for (var i = 0; i < device.length; i++)
-                              cardItem(device[i].image, device[i].id,
-                                  device[i].totalAvailable.toString(), 5),
-                          ],
-                  ),
-                ],
-              ),
-            ));
+                            ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
+              ));
   }
 
   Widget cardItem(
       String img, String name, String totalAvailable, int duration) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.18,
+      width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -200,6 +221,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   builder: (context) => DeviceDetailScreen(
                         id: name,
                         image: img,
+                        name: widget.name,
+                        email: widget.email,
                       )));
         },
         child: Row(
@@ -209,25 +232,21 @@ class _SearchScreenState extends State<SearchScreen> {
               width: 20,
             ),
             SizedBox(
-              width: 100,
-              height: 100,
+              width: 80,
+              height: 80,
               child: AvatarView(
                 radius: 40,
                 borderColor: Colors.white,
                 avatarType: AvatarType.RECTANGLE,
                 backgroundColor: Colors.red,
                 imagePath: img,
-                placeHolder: Container(
-                  child: const Icon(
-                    Icons.person,
-                    size: 50,
-                  ),
+                placeHolder: const Icon(
+                  Icons.person,
+                  size: 50,
                 ),
-                errorWidget: Container(
-                  child: const Icon(
-                    Icons.error,
-                    size: 50,
-                  ),
+                errorWidget: const Icon(
+                  Icons.error,
+                  size: 50,
                 ),
               ),
             ),
@@ -238,13 +257,16 @@ class _SearchScreenState extends State<SearchScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name,
-                    style: const TextStyle(
-                        color: accentColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
                 Text(
-                  'ระยะการยืม : ',
+                  name,
+                  style: const TextStyle(
+                    color: accentColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'ระยะการยืม : ' + duration.toString() + ' วัน',
                   style: const TextStyle(color: timeColor, fontSize: 14),
                 ),
                 Text(

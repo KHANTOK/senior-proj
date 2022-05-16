@@ -5,8 +5,16 @@ import 'package:proj/screen/User/fav_screen.dart';
 import 'package:proj/screen/User/search_screen.dart';
 import 'package:proj/widget/button.dart';
 
+import '../../model/AccountModel.dart';
+
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  final String name;
+  final String email;
+  const ProfileScreen({
+    Key? key,
+    required this.name,
+    required this.email,
+  }) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -26,7 +34,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SearchScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => SearchScreen(
+                            name: widget.name,
+                            email: widget.email,
+                          )),
                 );
               }),
           IconButton(
@@ -37,7 +49,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const HomeAdminScreen()),
+                      builder: (context) => HomeAdminScreen(
+                            name: widget.name,
+                            email: widget.email,
+                          )),
                 );
               })
         ], // remove back button
@@ -53,17 +68,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "สวัสดี Khantok",
-                  style: TextStyle(
+                Text(
+                  "สวัสดี " + widget.name,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text(
-                  "khantok@kkumail.com",
-                  style: TextStyle(
+                Text(
+                  widget.email,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -103,7 +118,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const FavScreen()));
+                                  builder: (context) => FavScreen(
+                                        name: widget.name,
+                                        email: widget.email,
+                                      )));
                         },
                       )
                     ],

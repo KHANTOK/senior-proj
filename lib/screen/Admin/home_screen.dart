@@ -7,7 +7,13 @@ import 'package:proj/screen/login.dart';
 import 'package:proj/widget/showTitle.dart';
 
 class HomeAdminScreen extends StatefulWidget {
-  const HomeAdminScreen({Key? key}) : super(key: key);
+  final String name;
+  final String email;
+  const HomeAdminScreen({
+    Key? key,
+    required this.name,
+    required this.email,
+  }) : super(key: key);
 
   @override
   _HomeAdminScreenState createState() => _HomeAdminScreenState();
@@ -33,7 +39,11 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SearchScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => SearchScreen(
+                            name: widget.name,
+                            email: widget.email,
+                          )),
                 );
               }),
           IconButton(
