@@ -13,22 +13,26 @@ String deviceModelToJson(List<DeviceModel> data) =>
 class DeviceModel {
   DeviceModel({
     required this.id,
+    required this.image,
     required this.favorite,
     required this.totalAvailable,
   });
 
   String id;
+  String image;
   bool favorite;
   int totalAvailable;
 
   factory DeviceModel.fromJson(Map<String, dynamic> json) => DeviceModel(
         id: json["id"],
+        image: json["image"],
         favorite: json["favorite"],
         totalAvailable: json["totalAvailable"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "image": image,
         "favorite": favorite,
         "totalAvailable": totalAvailable,
       };

@@ -30,11 +30,6 @@ class _SearchScreenState extends State<SearchScreen> {
   List<String> _foundDeviceImg = [];
   List<int> _foundDeviceDuration = [];
   List<DeviceModel> device = [];
-  List<String> imagePath = [
-    'assets/images/applePen.png',
-    'assets/images/trueChrome.png',
-    'assets/images/v14.jpg'
-  ];
   bool isLoading = false;
   bool isSearching = false;
   bool isFound = false;
@@ -76,7 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
         });
         _foundDeviceName.add(device[i].id);
         _foundDeviceTotalAvailable.add(device[i].totalAvailable);
-        _foundDeviceImg.add(imagePath[i]);
+        _foundDeviceImg.add(device[i].image);
         _foundDeviceDuration.add(5);
       }
     }
@@ -159,7 +154,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                   cardItem(
                                       _foundDeviceImg[i],
                                       _foundDeviceName[i],
-                                      _foundDeviceTotalAvailable[i].toString(),_foundDeviceDuration[i]),
+                                      _foundDeviceTotalAvailable[i].toString(),
+                                      _foundDeviceDuration[i]),
                               ]
                             : [
                                 const Text(
@@ -170,7 +166,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ]
                         : [
                             for (var i = 0; i < device.length; i++)
-                              cardItem(imagePath[i], device[i].id,
+                              cardItem(device[i].image, device[i].id,
                                   device[i].totalAvailable.toString(), 5),
                           ],
                   ),
@@ -179,7 +175,8 @@ class _SearchScreenState extends State<SearchScreen> {
             ));
   }
 
-  Widget cardItem(String img, String name, String totalAvailable, int duration) {
+  Widget cardItem(
+      String img, String name, String totalAvailable, int duration) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.18,
       margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -200,7 +197,10 @@ class _SearchScreenState extends State<SearchScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => DeviceDetailScreen(id: name)));
+                  builder: (context) => DeviceDetailScreen(
+                        id: name,
+                        image: img,
+                      )));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,

@@ -11,10 +11,12 @@ import '../../services/DeviceService.dart';
 
 class DeviceDetailScreen extends StatefulWidget {
   final String id;
+  final String image;
 
   const DeviceDetailScreen({
     Key? key,
     required this.id,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -114,7 +116,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                       height: 46,
                     ),
                     Image.asset(
-                      'assets/images/applePen.png',
+                      widget.image,
                       cacheWidth: 200,
                     ),
                     const SizedBox(
