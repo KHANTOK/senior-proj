@@ -3,6 +3,7 @@ import 'package:proj/color.dart';
 import 'package:proj/screen/Admin/home_screen.dart';
 import 'package:proj/screen/User/fav_screen.dart';
 import 'package:proj/screen/User/search_screen.dart';
+import 'package:proj/screen/login.dart';
 import 'package:proj/widget/button.dart';
 
 import '../../model/AccountModel.dart';
@@ -49,10 +50,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => HomeAdminScreen(
-                            name: widget.name,
-                            email: widget.email,
-                          )),
+                      builder: (context) => LoginScreen())
+                      // HomeAdminScreen(
+                      //       name: widget.name,
+                      //       email: widget.email,
+                      //     )),
                 );
               })
         ], // remove back button
@@ -87,7 +89,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 20),
                 AppsButton.button(
                     label: 'ติดต่อเจ้าหน้าที่',
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context, 
+                        builder: (BuildContext context) => AlertDialog(
+                          title: Text('ติดต่อเจ้าหน้าที่'),
+                          content: Text('Max : 082-548-4163'),
+                          actions: [
+                            TextButton(onPressed: () => Navigator.pop(context, 'OK'), 
+                            child: Text('OK'))
+                          ],
+                        ));
+                    },
                     height: 34,
                     width: 150)
               ],
