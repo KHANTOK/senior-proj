@@ -34,7 +34,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
   bool toggle = false;
   bool isLoading = false;
   DeviceDetailModel deviceDetail = DeviceDetailModel(
-      id: '', favorite: false, description: '', accession: '', location: []);
+      id: '', favorite: "0", description: '', accession: '', location: []);
 
   @override
   void initState() {
@@ -49,7 +49,11 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
     var response = await DeviceDetailService(widget.id);
     setState(() {
       deviceDetail = response;
-      toggle = deviceDetail.favorite;
+      if (deviceDetail.favorite == "0") {
+        toggle = false;
+      } else {
+        toggle = true;
+      }
       isLoading = false;
     });
   }
@@ -80,7 +84,11 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                 // Here we changing the icon.
                 toggle = !toggle;
               });
-              await updateFavoriteService(widget.id, toggle);
+              if (toggle == true) {
+                await updateFavoriteService(widget.id, "1");
+              } else {
+                await updateFavoriteService(widget.id, "0");
+              }
             },
             icon: toggle
                 ? const Icon(
@@ -189,6 +197,8 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                                       builder: (context) => SearchScreen(
                                             name: widget.name,
                                             email: widget.email,
+                                            thname: deviceDetail
+                                                .location[index].locationName,
                                           )));
                             },
                             labelPadding: const EdgeInsets.all(2.0),

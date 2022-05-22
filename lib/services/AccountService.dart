@@ -5,9 +5,13 @@ import '../http/client.dart';
 import '../model/AccountModel.dart';
 
 Future<AccountModel> LoginService(String email, String password) async {
-  final String url = Host + "/api/account/" + email + "/" + password;
+  Map<String, dynamic> queryParameters = {
+    'email': email,
+    'password': password,
+  };
+  final uri = Uri.https(Host, '/login', queryParameters);
   final response = await http.get(
-    Uri.parse(url),
+    uri,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -25,23 +29,23 @@ Future<dynamic> CreateAccountService(
   String access,
 ) async {
   try {
-    final String url = Host + "/api/account";
-    final response = await http.post(
-      Uri.parse(url),
+    Map<String, dynamic> queryParameters = {
+      'name': name,
+      'id': id,
+      'email': email,
+      'password': password,
+      'phoneNo': phoneNo,
+      'status': status,
+      'access': access,
+    };
+    final uri = Uri.https(Host, '/createAccount', queryParameters);
+    final response = await http.get(
+      uri,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic>{
-        'name': name,
-        'id': id,
-        'email': email,
-        'password': password,
-        'phoneNo': phoneNo,
-        'status': status,
-        'access': access,
-      }),
     );
-    return "success";
+    return jsonDecode(response.body);
   } catch (e) {
     print(e);
   }

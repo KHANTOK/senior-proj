@@ -6,9 +6,9 @@ import '../model/DeviceDetailModel.dart';
 import '../model/DeviceModel.dart';
 
 Future<List<DeviceModel>> DeviceService() async {
-  final String url = Host + "/api/device";
+  final uri = Uri.https(Host, '/devices');
   final response = await http.get(
-    Uri.parse(url),
+    uri,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -18,9 +18,9 @@ Future<List<DeviceModel>> DeviceService() async {
 }
 
 Future<String> SaveDeviceFromAPIKKUService() async {
-  final String url = Host + "/api/device";
-  final response = await http.post(
-    Uri.parse(url),
+  final uri = Uri.https(Host, '/importDevices');
+  final response = await http.get(
+    uri,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -28,13 +28,31 @@ Future<String> SaveDeviceFromAPIKKUService() async {
   return response.body;
 }
 
-Future<DeviceDetailModel> DeviceDetailService(String id) async {
-  final String url = Host + "/api/device/detail/" + id;
+Future<DeviceDetailModel> DeviceDetailService(String device) async {
+  Map<String, dynamic> queryParameters = {
+    'device': device,
+  };
+  final uri = Uri.https(Host, '/deviceDetail', queryParameters);
   final response = await http.get(
-    Uri.parse(url),
+    uri,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
   );
   return DeviceDetailModel.fromJson(json.decode(response.body));
+}
+
+Future<List<DeviceModel>> DeviceFilterByFacultyService(String faculty) async {
+  Map<String, dynamic> queryParameters = {
+    'faculty': faculty,
+  };
+  final uri = Uri.https(Host, '/deviceFilterByFaculty', queryParameters);
+  final response = await http.get(
+    uri,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+  return List<DeviceModel>.from(
+      json.decode(response.body).map((data) => DeviceModel.fromJson(data)));
 }

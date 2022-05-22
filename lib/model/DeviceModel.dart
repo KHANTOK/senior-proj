@@ -20,8 +20,8 @@ class DeviceModel {
 
   String id;
   String image;
-  bool favorite;
-  int totalAvailable;
+  String favorite;
+  String totalAvailable;
 
   factory DeviceModel.fromJson(Map<String, dynamic> json) => DeviceModel(
         id: json["id"],

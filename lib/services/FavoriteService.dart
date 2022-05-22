@@ -5,9 +5,9 @@ import '../http/client.dart';
 import '../model/DeviceModel.dart';
 
 Future<List<DeviceModel>> FavoriteService() async {
-  final String url = Host + "/api/favorite";
+  final uri = Uri.https(Host, '/favorite');
   final response = await http.get(
-    Uri.parse(url),
+    uri,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -16,18 +16,18 @@ Future<List<DeviceModel>> FavoriteService() async {
       json.decode(response.body).map((data) => DeviceModel.fromJson(data)));
 }
 
-Future<dynamic> updateFavoriteService(String id, bool favorite) async {
+Future<dynamic> updateFavoriteService(String device, String favorite) async {
   try {
-    final String url = Host + "/api/favorite";
-    final response = await http.patch(
-      Uri.parse(url),
+    Map<String, dynamic> queryParameters = {
+      "device": device,
+      "favorite": favorite,
+    };
+    final uri = Uri.https(Host, '/update/favorite', queryParameters);
+    final response = await http.get(
+      uri,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic>{
-        "id": id,
-        "favorite": favorite,
-      }),
     );
     return "success";
   } catch (e) {

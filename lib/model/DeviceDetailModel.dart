@@ -20,7 +20,7 @@ class DeviceDetailModel {
   });
 
   String id;
-  bool favorite;
+  String favorite;
   String description;
   String accession;
   List<Location> location;
@@ -53,7 +53,7 @@ class Location {
 
   String shortName;
   String locationName;
-  int count;
+  String count;
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         shortName: json["shortName"],

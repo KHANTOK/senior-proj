@@ -14,10 +14,12 @@ import '../../services/DeviceService.dart';
 class SearchScreen extends StatefulWidget {
   final String name;
   final String email;
+  final String? thname;
   const SearchScreen({
     Key? key,
     required this.name,
     required this.email,
+    this.thname,
   }) : super(key: key);
 
   @override
@@ -31,8 +33,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
   // This list holds the data for the list view
   // (ลิสต์เก็บข้อมูลค้นหา)
+  final TextEditingController controller = TextEditingController();
   final List<String> _foundDeviceName = [];
-  final List<int> _foundDeviceTotalAvailable = [];
+  final List<String> _foundDeviceTotalAvailable = [];
   final List<String> _foundDeviceImg = [];
   final List<int> _foundDeviceDuration = [];
   final List<bool> _foundDeviceFavorite = [];
@@ -40,13 +43,33 @@ class _SearchScreenState extends State<SearchScreen> {
   bool isLoading = false;
   bool isSearching = false;
   bool isFound = false;
+  bool has_faculty = false;
+  String faculty_name = "";
 
   @override
   initState() {
     // at the beginning, all users are shown
     // (ในตอนเริ่มต้นจะแสดงผู้ใช้ทั้งหมด)
-    getDevice();
+    if (widget.thname != null) {
+      getDeviceByFaculty();
+    } else {
+      getDevice();
+    }
     super.initState();
+  }
+
+  void getDeviceByFaculty() async {
+    setState(() {
+      isLoading = true;
+    });
+    var response = await DeviceFilterByFacultyService(widget.thname!);
+    setState(() {
+      device = response;
+      faculty_name = widget.thname!;
+      isLoading = false;
+      isFound = true;
+      has_faculty = true;
+    });
   }
 
   // call api
@@ -81,7 +104,11 @@ class _SearchScreenState extends State<SearchScreen> {
         _foundDeviceTotalAvailable.add(device[i].totalAvailable);
         _foundDeviceImg.add(device[i].image);
         _foundDeviceDuration.add(5);
-        _foundDeviceFavorite.add(device[i].favorite);
+        if (device[i].favorite == "0") {
+          _foundDeviceFavorite.add(false);
+        } else {
+          _foundDeviceFavorite.add(true);
+        }
       }
     }
     // we use the toLowerCase() method to make it case-insensitive
@@ -148,10 +175,10 @@ class _SearchScreenState extends State<SearchScreen> {
                             });
                           }
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'ค้นหา',
-                            hintText: 'หอสมุดกลาง',
+                            labelText: has_faculty ? faculty_name : 'ค้นหา',
+                            hintText: has_faculty ? faculty_name : 'หอสมุดกลาง',
                             suffixIcon: Icon(Icons.search),
                             contentPadding: EdgeInsets.all(15)),
                       ),

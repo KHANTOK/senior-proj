@@ -1,1 +1,1 @@
-String Host = "https://kkul-app.herokuapp.com";
+String Host = "api-kku.000webhostapp.com";
