@@ -149,8 +149,8 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                         ),
                         RichText(
                           text: TextSpan(
-                            text: 'ผู้มีสิทธิ์ยืม : ',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            text: 'ผู้มีสิทธิ์ยืม : นักศึกษา อาจารย์ บุคลากรมหาวิทยาลัยขอนแก่น',
+                            style: Theme.of(context).textTheme.bodyText1, 
                             children: <TextSpan>[
                               TextSpan(
                                   text: deviceDetail.accession,
@@ -165,7 +165,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                             style: Theme.of(context).textTheme.bodyText1,
                             children: const <TextSpan>[
                               TextSpan(
-                                  text: '.. วัน',
+                                  text: '1 วัน',
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.black))
                             ],

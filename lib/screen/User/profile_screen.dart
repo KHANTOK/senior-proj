@@ -5,6 +5,7 @@ import 'package:proj/screen/User/fav_screen.dart';
 import 'package:proj/screen/User/search_screen.dart';
 import 'package:proj/screen/login.dart';
 import 'package:proj/widget/button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/AccountModel.dart';
 
@@ -22,6 +23,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final String _number = '082-548-4163';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,8 +96,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       showDialog(
                         context: context, 
                         builder: (BuildContext context) => AlertDialog(
-                          title: Text('ติดต่อเจ้าหน้าที่'),
-                          content: Text('Max : 082-548-4163'),
+                          title: ListTile(
+                            title: Text('ติดต่อเจ้าหน้าที่', style: TextStyle(fontSize: 24),),
+                            subtitle: Text('สำนักหอสมุด มหาวิทยาลัยขอนแก่น 123 ถนนมิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น 40002',
+                            style: TextStyle(fontSize: 15),),
+                          ),
+                          
+                          content: ListTile(
+                            title: Text('Max : 082-548-4163'),
+                            trailing: TextButton(
+                            child: Text('call'),
+                            onPressed: () async {
+                              final _call = 'tel:$_number';
+                              final _text = 'sms:$_number';
+                              if (await canLaunch(_call)) {
+                                await launch(_call);
+                              }
+                            },
+                            ),),
+
+                          // Text('Max : 082-548-4163'),
                           actions: [
                             TextButton(onPressed: () => Navigator.pop(context, 'OK'), 
                             child: Text('OK'))
