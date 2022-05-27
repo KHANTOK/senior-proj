@@ -16,16 +16,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'KKUL',
       theme: ThemeData(
-        // This is the theme of your application.
-        primaryTextTheme: GoogleFonts.promptTextTheme(
-          Theme.of(context).primaryTextTheme
-        ),
-        textTheme: GoogleFonts.promptTextTheme(
-          Theme.of(context).textTheme
-              ),
-        scaffoldBackgroundColor: Colors.white),
+          // This is the theme of your application.
+          primaryTextTheme:
+              GoogleFonts.promptTextTheme(Theme.of(context).primaryTextTheme),
+          textTheme: GoogleFonts.promptTextTheme(Theme.of(context).textTheme),
+          scaffoldBackgroundColor: Colors.white),
       home: const LoginScreen(),
     );
   }
 }
-
