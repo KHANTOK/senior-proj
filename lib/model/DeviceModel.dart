@@ -15,18 +15,21 @@ class DeviceModel {
     required this.id,
     required this.image,
     required this.favorite,
+    required this.duration,
     required this.totalAvailable,
   });
 
   String id;
   String image;
   String favorite;
+  String duration;
   String totalAvailable;
 
   factory DeviceModel.fromJson(Map<String, dynamic> json) => DeviceModel(
         id: json["id"],
         image: json["image"],
         favorite: json["favorite"],
+        duration: json["duration"],
         totalAvailable: json["totalAvailable"],
       );
 
@@ -34,6 +37,7 @@ class DeviceModel {
         "id": id,
         "image": image,
         "favorite": favorite,
+        "duration": duration,
         "totalAvailable": totalAvailable,
       };
 }

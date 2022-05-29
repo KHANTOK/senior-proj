@@ -91,15 +91,18 @@ class _FavScreenState extends State<FavScreen> {
               child: Column(
               children: [
                 for (var i = 0; i < devices.length; i++)
-                  cardItem(devices[i].image, devices[i].id,
-                      devices[i].totalAvailable.toString(), 5),
+                  cardItem(
+                      devices[i].image,
+                      devices[i].id,
+                      devices[i].totalAvailable.toString(),
+                      devices[i].duration),
               ],
             )),
     );
   }
 
   Widget cardItem(
-      String img, String name, String totalAvailable, int duration) {
+      String img, String name, String totalAvailable, String duration) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.18,
       margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -124,7 +127,7 @@ class _FavScreenState extends State<FavScreen> {
                         id: name,
                         image: img,
                         name: widget.name,
-                              email: widget.email,
+                        email: widget.email,
                       )));
         },
         child: Row(
@@ -165,7 +168,7 @@ class _FavScreenState extends State<FavScreen> {
                         fontSize: 20,
                         fontWeight: FontWeight.bold)),
                 Text(
-                  'ระยะการยืม : ' + duration.toString() + ' วัน',
+                  'ระยะการยืม : ' + duration,
                   style: const TextStyle(color: timeColor, fontSize: 14),
                 ),
                 Text(

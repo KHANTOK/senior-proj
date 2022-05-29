@@ -13,6 +13,7 @@ Future<List<DeviceModel>> DeviceService() async {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   );
+  print(response.body);
   return List<DeviceModel>.from(
       json.decode(response.body).map((data) => DeviceModel.fromJson(data)));
 }

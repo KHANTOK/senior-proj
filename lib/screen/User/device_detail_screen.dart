@@ -1,3 +1,4 @@
+import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
 import 'package:proj/model/device_data.dart';
@@ -32,7 +33,12 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
   bool toggle = false;
   bool isLoading = false;
   DeviceDetailModel deviceDetail = DeviceDetailModel(
-      id: '', favorite: "0", description: '', accession: '', location: []);
+      id: '',
+      favorite: '0',
+      description: '',
+      accession: '',
+      duration: '',
+      location: []);
 
   @override
   void initState() {
@@ -110,9 +116,10 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                     const SizedBox(
                       height: 46,
                     ),
-                    Image.asset(
-                      widget.image,
-                      cacheWidth: 200,
+                    Image(
+                      image: NetworkImage(widget.image),
+                      height: 200,
+                      width: 200,
                     ),
                     const SizedBox(
                       height: 20,
@@ -127,9 +134,10 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                       height: 30,
                     ),
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      width: MediaQuery.of(context).size.width * 0.75,
                       child: Column(children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             const Text(
                               'รายละเอียด : ',
@@ -146,9 +154,9 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                           ],
                         ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
                               'ผู้มีสิทธิ์ยืม : ',
                               style: TextStyle(
                                   fontSize: 16,
@@ -156,15 +164,16 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              'นักศึกษา อาจารย์ \nบุคลากรมหาวิทยาลัยขอนแก่น',
+                              deviceDetail.accession,
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),
                             )
                           ],
                         ),
                         Row(
-                          children: const [
-                            Text(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
                               'ระยะการยืม : ',
                               style: TextStyle(
                                   fontSize: 16,
@@ -172,13 +181,14 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              '1 วัน',
+                              deviceDetail.duration,
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),
                             )
                           ],
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: const [
                             Text(
                               'สถานที่อื่นที่มีอุปกรณ์นี้ : ',

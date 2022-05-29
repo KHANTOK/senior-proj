@@ -37,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final List<String> _foundDeviceName = [];
   final List<String> _foundDeviceTotalAvailable = [];
   final List<String> _foundDeviceImg = [];
-  final List<int> _foundDeviceDuration = [];
+  final List<String> _foundDeviceDuration = [];
   final List<bool> _foundDeviceFavorite = [];
   List<DeviceModel> device = [];
   bool isLoading = false;
@@ -103,7 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
         _foundDeviceName.add(device[i].id);
         _foundDeviceTotalAvailable.add(device[i].totalAvailable);
         _foundDeviceImg.add(device[i].image);
-        _foundDeviceDuration.add(5);
+        _foundDeviceDuration.add(device[i].duration);
         if (device[i].favorite == "0") {
           _foundDeviceFavorite.add(false);
         } else {
@@ -210,7 +210,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   device[i].image,
                                   device[i].id,
                                   device[i].totalAvailable.toString(),
-                                  5,
+                                  device[i].duration,
                                 )
                             ],
                     ),
@@ -223,7 +223,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget cardItem(
-      String img, String name, String totalAvailable, int duration) {
+      String img, String name, String totalAvailable, String duration) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.18,
       width: MediaQuery.of(context).size.width,
@@ -293,7 +293,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
                 Text(
-                  'ระยะการยืม : ' + duration.toString() + ' วัน',
+                  'ระยะการยืม : ' + duration,
                   style: const TextStyle(color: timeColor, fontSize: 14),
                 ),
                 Text(
