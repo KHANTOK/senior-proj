@@ -112,10 +112,14 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                               fontWeight: FontWeight.bold)),
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ManageDeviceScreen()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ManageDeviceScreen(
+                              name: widget.name,
+                              email: widget.email,
+                            ),
+                          ),
+                        );
                       },
                     )
                   ],
