@@ -16,6 +16,7 @@ class DeviceDetailModel {
     required this.favorite,
     required this.description,
     required this.accession,
+    required this.duration,
     required this.location,
   });
 
@@ -23,6 +24,7 @@ class DeviceDetailModel {
   String favorite;
   String description;
   String accession;
+  String duration;
   List<Location> location;
 
   factory DeviceDetailModel.fromJson(Map<String, dynamic> json) =>
@@ -31,6 +33,7 @@ class DeviceDetailModel {
         favorite: json["favorite"],
         description: json["description"],
         accession: json["accession"],
+        duration: json["duration"],
         location: List<Location>.from(
             json["location"].map((x) => Location.fromJson(x))),
       );
@@ -40,6 +43,7 @@ class DeviceDetailModel {
         "favorite": favorite,
         "description": description,
         "accession": accession,
+        "duration": duration,
         "location": List<dynamic>.from(location.map((x) => x.toJson())),
       };
 }

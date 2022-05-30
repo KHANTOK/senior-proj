@@ -1,3 +1,4 @@
+import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
 import 'package:proj/model/device_data.dart';
@@ -29,12 +30,15 @@ class DeviceDetailScreen extends StatefulWidget {
 }
 
 class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
-  List<Map<String, dynamic>> _allDevice = devices;
-  List<Map<String, dynamic>> _favDeviceList = [];
   bool toggle = false;
   bool isLoading = false;
   DeviceDetailModel deviceDetail = DeviceDetailModel(
-      id: '', favorite: "0", description: '', accession: '', location: []);
+      id: '',
+      favorite: '0',
+      description: '',
+      accession: '',
+      duration: '',
+      location: []);
 
   @override
   void initState() {
@@ -112,123 +116,145 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                     const SizedBox(
                       height: 46,
                     ),
-                    Image.asset(
-                      widget.image,
-                      cacheWidth: 200,
+                    Image(
+                      image: NetworkImage(widget.image),
+                      height: 200,
+                      width: 200,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Text(deviceDetail.id,
                         style: const TextStyle(
-                            color: accentColor,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold)),
+                          color: accentColor,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        )),
                     const SizedBox(
                       height: 30,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            text: 'รายละเอียด : ',
-                            style: Theme.of(context).textTheme.bodyText1,
-                            // style:
-                            // TextStyle(
-                            //     color: kPrimaryColor,
-                            //     fontWeight: FontWeight.bold,
-                            //     fontSize: 16),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: deviceDetail.description,
-                                  style: const TextStyle(
-                                      fontSize: 16, color: Colors.black))
-                            ],
-                          ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'รายละเอียด : ',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              deviceDetail.description,
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.black),
+                            )
+                          ],
                         ),
-                        RichText(
-                          text: TextSpan(
-                            text: 'ผู้มีสิทธิ์ยืม : นักศึกษา อาจารย์ บุคลากรมหาวิทยาลัยขอนแก่น',
-                            style: Theme.of(context).textTheme.bodyText1, 
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: deviceDetail.accession,
-                                  style: const TextStyle(
-                                      fontSize: 16, color: Colors.black))
-                            ],
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'ผู้มีสิทธิ์ยืม : ',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              deviceDetail.accession,
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.black),
+                            )
+                          ],
                         ),
-                        RichText(
-                          text: TextSpan(
-                            text: 'ระยะการยืม : ',
-                            style: Theme.of(context).textTheme.bodyText1,
-                            children: const <TextSpan>[
-                              TextSpan(
-                                  text: '1 วัน',
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.black))
-                            ],
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'ระยะการยืม : ',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              deviceDetail.duration,
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.black),
+                            )
+                          ],
                         ),
-                        RichText(
-                          text: TextSpan(
-                            text: 'สถานที่อื่นที่มีอุปกรณ์นี้ : ',
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'สถานที่อื่นที่มีอุปกรณ์นี้ : ',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                      ],
+                      ]),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 15.0,
-                      runSpacing: 6.0,
-                      children: List.generate(
-                        deviceDetail.location.length,
-                        (index) {
-                          return ActionChip(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SearchScreen(
-                                            name: widget.name,
-                                            email: widget.email,
-                                            thname: deviceDetail
-                                                .location[index].locationName,
-                                          )));
-                            },
-                            labelPadding: const EdgeInsets.all(2.0),
-                            avatar: CircleAvatar(
-                              backgroundColor: Colors.white70,
-                              child: Text(deviceDetail.location[index].count
-                                  .toString()),
-                            ),
-                            label: Text(
-                              deviceDetail.location[index].locationName,
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                            backgroundColor: Colors.white,
-                            elevation: 6.0,
-                            shadowColor: kPrimaryColor,
-                            // Colors.grey[60],
-                            padding: const EdgeInsets.all(8.0),
-                          );
-                        },
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      child: Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        spacing: 15.0,
+                        runSpacing: 6.0,
+                        children: [
+                          for (var i = 0; i < deviceDetail.location.length; i++)
+                            cardItem(deviceDetail.location[i].locationName,
+                                deviceDetail.location[i].count.toString()),
+                        ],
                       ),
                     ),
                     const SizedBox(
                       height: 50,
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
+    );
+  }
+
+  Widget cardItem(String locationName, String locationCount) {
+    return ActionChip(
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SearchScreen(
+                      name: widget.name,
+                      email: widget.email,
+                      thname: locationName,
+                    )));
+      },
+      labelPadding: const EdgeInsets.all(2.0),
+      avatar: CircleAvatar(
+        backgroundColor: Colors.white70,
+        child: Text(locationCount),
+      ),
+      label: Text(
+        locationName,
+        style: const TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      backgroundColor: Colors.white,
+      elevation: 6.0,
+      shadowColor: kPrimaryColor,
+      // Colors.grey[60],
+      padding: const EdgeInsets.all(8.0),
     );
   }
 }

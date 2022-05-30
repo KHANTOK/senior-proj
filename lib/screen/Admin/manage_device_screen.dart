@@ -2,11 +2,21 @@ import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
-import 'package:proj/model/device_data.dart';
 import 'package:proj/screen/Admin/add_device_screen.dart';
 
+import '../../model/AccountModel.dart';
+import '../../model/ManageDeviceModel.dart';
+import '../../services/ManageDeviceService.dart';
+import 'home_screen.dart';
+
 class ManageDeviceScreen extends StatefulWidget {
-  const ManageDeviceScreen({Key? key}) : super(key: key);
+  final String name;
+  final String email;
+  const ManageDeviceScreen({
+    Key? key,
+    required this.name,
+    required this.email,
+  }) : super(key: key);
 
   @override
   _ManageDeviceScreenState createState() => _ManageDeviceScreenState();
@@ -15,8 +25,38 @@ class ManageDeviceScreen extends StatefulWidget {
 class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
   // This holds a list of fiction users
   // You can use data fetched from a database or a server as well
-  final List<Map<String, dynamic>> _allDevice = devices;
-  final List<bool> _switchValues = List.generate(devices.length, (_) => false);
+  // final List<bool> _switchValues = [false, true];
+  List<ManageDeviceModel> devices = [];
+  bool isLoading = false;
+  List<bool> switchValue = [];
+
+  @override
+  void initState() {
+    getDeviceAll();
+    super.initState();
+  }
+
+  void reFresh() {
+    getDeviceAll();
+  }
+
+  void getDeviceAll() async {
+    setState(() {
+      isLoading = true;
+    });
+    var response = await DeviceAllService();
+    setState(() {
+      devices = response;
+      for (var i = 0; i < devices.length; i++) {
+        if (devices[i].unlock == "1") {
+          switchValue.add(true);
+        } else {
+          switchValue.add(false);
+        }
+      }
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,107 +75,172 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
           ),
           color: kPrimaryColor,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return HomeAdminScreen(
+                name: widget.name,
+                email: widget.email,
+              );
+            }));
           },
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-                itemCount: _allDevice.length,
-                itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                      child: Container(
-                        height: 200,
-                        child: Card(
-                          color: Colors.white,
-                          elevation: 6,
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ListTile(
-                                leading: AvatarView(
-                                  radius: 40,
-                                  borderColor: Colors.white,
-                                  avatarType: AvatarType.RECTANGLE,
-                                  backgroundColor: Colors.red,
-                                  imagePath: _allDevice[index]['img'],
-                                  placeHolder: Container(
-                                    child: const Icon(
-                                      Icons.person,
-                                      size: 50,
-                                    ),
-                                  ),
-                                  errorWidget: Container(
-                                    child: const Icon(
-                                      Icons.error,
-                                      size: 50,
-                                    ),
-                                  ),
-                                ),
-                                title: Text(_allDevice[index]['bib'],
-                                    style: const TextStyle(
-                                        color: accentColor,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'ผู้สิทธิ์ยืม : ${_allDevice[index]["borrower"].toString()}',
-                                      style: const TextStyle(
-                                          color: timeColor, fontSize: 14),
-                                    ),
-                                    Text(
-                                      'ระยะการยืม : ${_allDevice[index]["time"].toString()}',
-                                      style: const TextStyle(
-                                          color: timeColor, fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                                // trailing: Icon(Icons.close)
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Transform.scale(
-                                    scale: 0.7,
-                                    child: CupertinoSwitch(
-                                      value: _switchValues[index],
-                                      onChanged: (bool value) {
-                                        setState(() {
-                                          _switchValues[index] = value;
-                                        });
-                                      },
-                                      activeColor: accentColor,
-                                    ),
-                                  ),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
-                                      )),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )),
-          ),
-          const SizedBox(height: 50)
-        ],
-      ),
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Column(children: <Widget>[
+                    for (var i = 0; i < devices.length; i++)
+                      cardItem(
+                          devices[i].image,
+                          devices[i].bibId,
+                          devices[i].deviceName,
+                          devices[i].accession,
+                          devices[i].duration,
+                          switchValue[i],
+                          i)
+                  ]),
+                  const SizedBox(height: 100)
+                ],
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AddDeviceScreen()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddDeviceScreen(
+                name: widget.name,
+                email: widget.email,
+              ),
+            ),
+          );
         },
         // tooltip: 'Increment',
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget cardItem(String img, String bib_id, String name, String accession,
+      String duration, bool unlock, int index) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.27,
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(1, 7),
+            blurRadius: 10,
+            spreadRadius: 2,
+            color: Color.fromARGB(197, 199, 199, 199),
+          )
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(
+            width: 20,
+          ),
+          SizedBox(
+            width: 80,
+            height: 80,
+            child: AvatarView(
+              radius: 40,
+              borderColor: Colors.white,
+              avatarType: AvatarType.RECTANGLE,
+              backgroundColor: Colors.red,
+              imagePath: img,
+              placeHolder: const Icon(
+                Icons.person,
+                size: 50,
+              ),
+              errorWidget: const Icon(
+                Icons.error,
+                size: 50,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'BIB ID : ' + bib_id,
+                style: const TextStyle(
+                  color: accentColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Text(
+                  name,
+                  style: const TextStyle(
+                    color: accentColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'ผู้มีสิทธิ์ยืม : ' + accession,
+                style: const TextStyle(color: timeColor, fontSize: 14),
+              ),
+              Text(
+                'ระยะการยืม : ' + duration,
+                style: const TextStyle(color: timeColor, fontSize: 14),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Transform.scale(
+                      scale: 0.7,
+                      child: CupertinoSwitch(
+                        value: switchValue[index],
+                        onChanged: (bool value) async {
+                          setState(() {
+                            switchValue[index] = value;
+                          });
+                          if (switchValue[index]) {
+                            await updateUnlockService(name, "1");
+                          } else {
+                            await updateUnlockService(name, "0");
+                          }
+                        },
+                        activeColor: accentColor,
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () async {
+                          await DeleteDeviceService(bib_id);
+                          reFresh();
+                        },
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        )),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
