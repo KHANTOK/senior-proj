@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:proj/screen/User/search_screen.dart';
+import 'package:proj/screen/sso.dart';
 import 'package:proj/widget/button.dart';
 
 import '../components/Loading.dart';
@@ -107,11 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     setState(() {
                                       isLoading = false;
                                     });
-                                    if (login.status == "user") {
+                                    if (login.status == "admin") {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => SearchScreen(
+                                          builder: (context) => HomeAdminScreen(
                                             name: login.name,
                                             email: login.email,
                                           ),
@@ -121,10 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => HomeAdminScreen(
-                                            name: login.name,
-                                            email: login.email,
-                                          ),
+                                          builder: (context) => SSOScreen(),
                                         ),
                                       );
                                     }
