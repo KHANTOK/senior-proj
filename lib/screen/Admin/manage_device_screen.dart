@@ -127,7 +127,6 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
   Widget cardItem(String img, String bib_id, String name, String accession,
       String duration, bool unlock, int index) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.27,
       width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       decoration: const BoxDecoration(
@@ -168,22 +167,25 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
             ),
           ),
           const SizedBox(
-            width: 20,
+            width: 15,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'BIB ID : ' + bib_id,
-                style: const TextStyle(
-                  color: accentColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              Container(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: Text(
+                  'BIB ID : ' + bib_id,
+                  style: const TextStyle(
+                    color: accentColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.6,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: Text(
                   name,
                   style: const TextStyle(
@@ -193,19 +195,21 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'ผู้มีสิทธิ์ยืม : ' + accession,
-                style: const TextStyle(color: timeColor, fontSize: 14),
-              ),
-              Text(
-                'ระยะการยืม : ' + duration,
-                style: const TextStyle(color: timeColor, fontSize: 14),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.55,
+                child: Text(
+                  'ผู้มีสิทธิ์ยืม : ' + accession,
+                  style: const TextStyle(color: timeColor, fontSize: 14),
+                ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.6,
+                child: Text(
+                  'ระยะการยืม : ' + duration,
+                  style: const TextStyle(color: timeColor, fontSize: 14),
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.53,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
