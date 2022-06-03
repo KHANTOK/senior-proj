@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
 import 'package:proj/screen/Admin/create_acc_screen.dart';
+import 'package:proj/screen/Admin/manage_admin_screen.dart';
 import 'package:proj/screen/Admin/manage_device_screen.dart';
 import 'package:proj/screen/User/search_screen.dart';
 import 'package:proj/screen/login.dart';
@@ -78,7 +79,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         Icons.person_add,
                         color: kPrimaryColor,
                       ),
-                      title: const Text("สร้างบัญชี",
+                      title: const Text("จัดการบัญชี",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
@@ -87,7 +88,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const CreateAccScreen()));
+                                builder: (context) => const ManageAdminScreen(name: '', email: '',)));
                       },
                     )
                   ],
@@ -105,7 +106,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         Icons.settings,
                         color: kPrimaryColor,
                       ),
-                      title: const Text("เพิ่ม / แก้ไข / ลบ อุปกรณ์",
+                      title: const Text("จัดการอุปกรณ์",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
@@ -125,60 +126,60 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                   ],
                 ),
               ),
-              Card(
-                color: Colors.white,
-                elevation: 6,
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: ExpansionTile(
-                    title: Row(
-                      children: const <Widget>[
-                        Icon(
-                          Icons.perm_contact_calendar,
-                          color: kPrimaryColor,
-                        ),
-                        SizedBox(width: 30),
-                        Text("รายชื่อผู้ดูแล",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                    children: [
-                      // ListView.builder(
-                      //     itemBuilder: (context, index) => Column(
-                      //           children: [
-                      //             Text("555555555",
-                      //                 style: TextStyle(
-                      //                     color: Colors.black,
-                      //                     fontSize: 16,
-                      //                     fontWeight: FontWeight.bold)),
-                      //           ],
-                      //         ))
-                      ListTile(
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
-                            Text('มานี มานะ',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
-                            Text("โกโกวา ที่หนูอยากได้",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
-                            Text("แก้วกล้า ชูใจ",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                      ),
-                    ]),
-              )
+              // Card(
+              //   color: Colors.white,
+              //   elevation: 6,
+              //   margin: const EdgeInsets.symmetric(vertical: 10),
+              //   child: ExpansionTile(
+              //       title: Row(
+              //         children: const <Widget>[
+              //           Icon(
+              //             Icons.perm_contact_calendar,
+              //             color: kPrimaryColor,
+              //           ),
+              //           SizedBox(width: 30),
+              //           Text("รายชื่อผู้ดูแล",
+              //               style: TextStyle(
+              //                   color: Colors.black,
+              //                   fontSize: 18,
+              //                   fontWeight: FontWeight.bold)),
+              //         ],
+              //       ),
+              //       children: [
+              //         // ListView.builder(
+              //         //     itemBuilder: (context, index) => Column(
+              //         //           children: [
+              //         //             Text("555555555",
+              //         //                 style: TextStyle(
+              //         //                     color: Colors.black,
+              //         //                     fontSize: 16,
+              //         //                     fontWeight: FontWeight.bold)),
+              //         //           ],
+              //         //         ))
+              //         ListTile(
+              //           title: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: const <Widget>[
+              //               Text('มานี มานะ',
+              //                   style: TextStyle(
+              //                       color: Colors.black,
+              //                       fontSize: 16,
+              //                       fontWeight: FontWeight.bold)),
+              //               Text("โกโกวา ที่หนูอยากได้",
+              //                   style: TextStyle(
+              //                       color: Colors.black,
+              //                       fontSize: 16,
+              //                       fontWeight: FontWeight.bold)),
+              //               Text("แก้วกล้า ชูใจ",
+              //                   style: TextStyle(
+              //                       color: Colors.black,
+              //                       fontSize: 16,
+              //                       fontWeight: FontWeight.bold)),
+              //             ],
+              //           ),
+              //         ),
+              //       ]),
+              // )
             ],
           ),
         ),

@@ -213,6 +213,7 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    TextButton(onPressed: (){}, child: Text('แก้ไข')),
                     Transform.scale(
                       scale: 0.7,
                       child: CupertinoSwitch(

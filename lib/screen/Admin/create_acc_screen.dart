@@ -39,7 +39,7 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
           backgroundColor: Colors.white,
           elevation: 0,
           title: const Text(
-            "สร้างบัญชี",
+            "จัดการผู้ดูแล",
             style: TextStyle(color: Colors.black, fontSize: 22),
           ),
           leading: IconButton(
@@ -56,44 +56,44 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 26),
           child: Column(
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Radio(
-                    activeColor: kPrimaryLightColor,
-                    value: 1,
-                    groupValue: id,
-                    onChanged: (val) {
-                      setState(() {
-                        radioButtonItem = 'นักเรียน/นักศึกษา';
-                        id = 1;
-                      });
-                    },
-                  ),
-                  const Text(
-                    'นักเรียน/นักศึกษา',
-                    style: TextStyle(fontSize: 17.0),
-                  ),
-                  Radio(
-                    activeColor: kPrimaryLightColor,
-                    value: 2,
-                    groupValue: id,
-                    onChanged: (val) {
-                      setState(() {
-                        radioButtonItem = 'ผู้ดูแล';
-                        id = 2;
-                      });
-                    },
-                  ),
-                  const Text(
-                    'ผู้ดูแล',
-                    style: TextStyle(
-                      fontSize: 17.0,
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   // crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: <Widget>[
+              //     Radio(
+              //       activeColor: kPrimaryLightColor,
+              //       value: 1,
+              //       groupValue: id,
+              //       onChanged: (val) {
+              //         setState(() {
+              //           radioButtonItem = 'นักเรียน/นักศึกษา';
+              //           id = 1;
+              //         });
+              //       },
+              //     ),
+              //     const Text(
+              //       'นักเรียน/นักศึกษา',
+              //       style: TextStyle(fontSize: 17.0),
+              //     ),
+              //     Radio(
+              //       activeColor: kPrimaryLightColor,
+              //       value: 2,
+              //       groupValue: id,
+              //       onChanged: (val) {
+              //         setState(() {
+              //           radioButtonItem = 'ผู้ดูแล';
+              //           id = 2;
+              //         });
+              //       },
+              //     ),
+              //     const Text(
+              //       'ผู้ดูแล',
+              //       style: TextStyle(
+              //         fontSize: 17.0,
+              //       ),
+              //     ),
+              //   ],
+              // ),
               const SizedBox(height: 15),
               TextField(
                 controller: nameController,
@@ -105,15 +105,15 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-              TextField(
-                controller: idController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'ไอดี',
-                    labelStyle: TextStyle(color: kPrimaryColor),
-                    helperText: 'ตัวอย่าง : 613040600-9'),
-              ),
-              const SizedBox(height: 15),
+              // TextField(
+              //   controller: idController,
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       labelText: 'ไอดี',
+              //       labelStyle: TextStyle(color: kPrimaryColor),
+              //       helperText: 'ตัวอย่าง : 613040600-9'),
+              // ),
+              // const SizedBox(height: 15),
               TextField(
                 controller: emailController,
                 decoration: const InputDecoration(
@@ -123,24 +123,24 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                     helperText: 'ตัวอย่าง : manee@kku.ac.th'),
               ),
               const SizedBox(height: 15),
-              TextField(
-                controller: phoneNoController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'หมายเลขโทรศัพท์',
-                    labelStyle: TextStyle(color: kPrimaryColor),
-                    helperText: 'ตัวอย่าง : 0812345679'),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'รหัสผ่าน',
-                    labelStyle: TextStyle(color: kPrimaryColor),
-                    helperText: 'รหัสผ่านควรมี 9 ตัวเป็นต้นไป'),
-              ),
-              const SizedBox(height: 30),
+              // TextField(
+              //   controller: phoneNoController,
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       labelText: 'หมายเลขโทรศัพท์',
+              //       labelStyle: TextStyle(color: kPrimaryColor),
+              //       helperText: 'ตัวอย่าง : 0812345679'),
+              // ),
+              // const SizedBox(height: 15),
+              // TextField(
+              //   controller: passwordController,
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       labelText: 'รหัสผ่าน',
+              //       labelStyle: TextStyle(color: kPrimaryColor),
+              //       helperText: 'รหัสผ่านควรมี 9 ตัวเป็นต้นไป'),
+              // ),
+              // const SizedBox(height: 30),
               SizedBox(
                 child: AppsButton.button(
                     label: isLoading ? "กำลังสร้างบัญชี.." : "สร้างบัญชี", 

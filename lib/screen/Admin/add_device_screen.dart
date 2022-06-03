@@ -59,38 +59,38 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: SizedBox(
-                  height: 138,
-                  width: 200,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Container(
-                        color: Colors.grey,
-                      ),
-                      Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: SizedBox(
-                          height: 46,
-                          width: 46,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: const Icon(
-                              Icons.camera_alt_outlined,
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
+              // Center(
+              //   child: SizedBox(
+              //     height: 138,
+              //     width: 200,
+              //     child: Stack(
+              //       fit: StackFit.expand,
+              //       clipBehavior: Clip.none,
+              //       children: [
+              //         Container(
+              //           color: Colors.grey,
+              //         ),
+              //         Positioned(
+              //           right: 0,
+              //           bottom: 0,
+              //           child: SizedBox(
+              //             height: 46,
+              //             width: 46,
+              //             child: TextButton(
+              //               onPressed: () {},
+              //               child: const Icon(
+              //                 Icons.camera_alt_outlined,
+              //                 size: 20,
+              //                 color: Colors.white,
+              //               ),
+              //             ),
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 30),
               TextField(
                 onChanged: (value) {
                   bibId = value;
@@ -140,7 +140,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       },
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: '30',
+                          hintText: '1',
                           hintStyle: TextStyle(fontSize: 16),
                           // change the TextField height
                           contentPadding: EdgeInsets.all(10)),
