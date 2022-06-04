@@ -21,22 +21,12 @@ Future<AccountModel> LoginService(String email, String password) async {
 
 Future<dynamic> CreateAccountService(
   String name,
-  String id,
   String email,
-  String password,
-  String phoneNo,
-  String status,
-  String access,
 ) async {
   try {
     Map<String, dynamic> queryParameters = {
       'name': name,
-      'id': id,
       'email': email,
-      'password': password,
-      'phoneNo': phoneNo,
-      'status': status,
-      'access': access,
     };
     final uri = Uri.https(Host, '/createAccount', queryParameters);
     final response = await http.get(
@@ -46,6 +36,42 @@ Future<dynamic> CreateAccountService(
       },
     );
     return jsonDecode(response.body);
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future<dynamic> GetAccountService() async {
+  try {
+    final uri = Uri.https(Host, '/account');
+    final response = await http.get(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return List<AccountModel>.from(
+        json.decode(response.body).map((x) => AccountModel.fromJson(x)));
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future<dynamic> DeleteAccountService(
+  String email,
+) async {
+  try {
+    Map<String, dynamic> queryParameters = {
+      'email': email,
+    };
+    final uri = Uri.https(Host, '/delete/account', queryParameters);
+    final response = await http.get(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    return "success";
   } catch (e) {
     print(e);
   }

@@ -13,22 +13,11 @@ class CreateAccScreen extends StatefulWidget {
 }
 
 class _CreateAccScreenState extends State<CreateAccScreen> {
-  // Default Radio Button Selected Item When App Starts.
-  String radioButtonItem = 'นักเรียน/นักศึกษา';
-
-  // Group Value for Radio Button.
-  int id = 1;
-
   // ตัวแปรสำหรับรับค่าจาก TextField และ call api
   TextEditingController nameController = TextEditingController();
-  TextEditingController idController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController phoneNoController = TextEditingController();
 
   // ตัวแปรสำหรับ call api
-  String access = "";
-  String status = "";
   bool isLoading = false;
 
   @override
@@ -56,44 +45,6 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 26),
           child: Column(
             children: <Widget>[
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   // crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: <Widget>[
-              //     Radio(
-              //       activeColor: kPrimaryLightColor,
-              //       value: 1,
-              //       groupValue: id,
-              //       onChanged: (val) {
-              //         setState(() {
-              //           radioButtonItem = 'นักเรียน/นักศึกษา';
-              //           id = 1;
-              //         });
-              //       },
-              //     ),
-              //     const Text(
-              //       'นักเรียน/นักศึกษา',
-              //       style: TextStyle(fontSize: 17.0),
-              //     ),
-              //     Radio(
-              //       activeColor: kPrimaryLightColor,
-              //       value: 2,
-              //       groupValue: id,
-              //       onChanged: (val) {
-              //         setState(() {
-              //           radioButtonItem = 'ผู้ดูแล';
-              //           id = 2;
-              //         });
-              //       },
-              //     ),
-              //     const Text(
-              //       'ผู้ดูแล',
-              //       style: TextStyle(
-              //         fontSize: 17.0,
-              //       ),
-              //     ),
-              //   ],
-              // ),
               const SizedBox(height: 15),
               TextField(
                 controller: nameController,
@@ -105,15 +56,6 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-              // TextField(
-              //   controller: idController,
-              //   decoration: const InputDecoration(
-              //       border: OutlineInputBorder(),
-              //       labelText: 'ไอดี',
-              //       labelStyle: TextStyle(color: kPrimaryColor),
-              //       helperText: 'ตัวอย่าง : 613040600-9'),
-              // ),
-              // const SizedBox(height: 15),
               TextField(
                 controller: emailController,
                 decoration: const InputDecoration(
@@ -123,52 +65,17 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                     helperText: 'ตัวอย่าง : manee@kku.ac.th'),
               ),
               const SizedBox(height: 15),
-              // TextField(
-              //   controller: phoneNoController,
-              //   decoration: const InputDecoration(
-              //       border: OutlineInputBorder(),
-              //       labelText: 'หมายเลขโทรศัพท์',
-              //       labelStyle: TextStyle(color: kPrimaryColor),
-              //       helperText: 'ตัวอย่าง : 0812345679'),
-              // ),
-              // const SizedBox(height: 15),
-              // TextField(
-              //   controller: passwordController,
-              //   decoration: const InputDecoration(
-              //       border: OutlineInputBorder(),
-              //       labelText: 'รหัสผ่าน',
-              //       labelStyle: TextStyle(color: kPrimaryColor),
-              //       helperText: 'รหัสผ่านควรมี 9 ตัวเป็นต้นไป'),
-              // ),
-              // const SizedBox(height: 30),
               SizedBox(
                 child: AppsButton.button(
-                    label: isLoading ? "กำลังสร้างบัญชี.." : "สร้างบัญชี", 
+                    label: isLoading ? "กำลังสร้างบัญชี.." : "สร้างบัญชี",
                     onPressed: () async {
-                      // เช็ค radio button เพื่อจะ set ค่าให้ access กับ status
-                      if (radioButtonItem == "นักเรียน/นักศึกษา") {
-                        setState(() {
-                          access = "นักศึกษา";
-                          status = "user";
-                        });
-                      } else {
-                        setState(() {
-                          access = "อาจารย์";
-                          status = "admin";
-                        });
-                      }
                       // call api create account
                       setState(() {
                         isLoading = true;
                       });
                       await CreateAccountService(
                         nameController.text,
-                        idController.text,
                         emailController.text,
-                        passwordController.text,
-                        phoneNoController.text,
-                        status,
-                        access,
                       );
                       setState(() {
                         isLoading = false;

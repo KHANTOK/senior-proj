@@ -74,8 +74,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "ชื่อผู้ใช้"),
-                      validator:
-                          RequiredValidator(errorText: "กรุณากรอกอีเมล์"),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณากรอกอีเมลล์';
+                        }
+                        if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                          return "กรุณากรอกอีเมลให้ถูกต้อง";
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(
                       height: 15,
@@ -83,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: password,
                       decoration: const InputDecoration(
-                        border: const OutlineInputBorder(),
+                        border: OutlineInputBorder(),
                         labelText: "รหัสผ่าน",
                       ),
                       obscureText: true,
@@ -108,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     setState(() {
                                       isLoading = false;
                                     });
-                                    if (login.status == "admin") {
+                                    if (login.email != "") {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

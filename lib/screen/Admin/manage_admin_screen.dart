@@ -1,7 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
+import 'package:proj/model/AccountModel.dart';
 import 'package:proj/screen/Admin/create_acc_screen.dart';
 import 'package:proj/screen/Admin/home_screen.dart';
+
+import '../../services/AccountService.dart';
 
 class ManageAdminScreen extends StatefulWidget {
   final String name;
@@ -14,6 +19,24 @@ class ManageAdminScreen extends StatefulWidget {
 }
 
 class _ManageAdminScreenState extends State<ManageAdminScreen> {
+  List<AccountModel> account = [];
+  @override
+  void initState() {
+    super.initState();
+    getAllAccount();
+  }
+
+  void reFresh() {
+    getAllAccount();
+  }
+
+  void getAllAccount() async {
+    var response = await GetAccountService();
+    setState(() {
+      account = response;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,66 +69,8 @@ class _ManageAdminScreenState extends State<ManageAdminScreen> {
             child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 26),
                 children: <Widget>[
-                  Card(
-                    color: Colors.white,
-                    elevation: 6,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: ListTile(
-                      title: const Text("มานี มานะ",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            // fontWeight: FontWeight.bold
-                          )),
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ),
-                  Card(
-                    color: Colors.white,
-                    elevation: 6,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: ListTile(
-                      title: const Text("แก้วกล้า ชูใจ",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            // fontWeight: FontWeight.bold
-                          )),
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ),
-                  Card(
-                    color: Colors.white,
-                    elevation: 6,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: ListTile(
-                      title: const Text("ก้านกล้วย",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            // fontWeight: FontWeight.bold
-                          )),
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ),
+                  for (var i = 0; i < account.length; i++)
+                    adminCard(account[i].name, account[i].email)
                 ]),
           ),
         ],
@@ -121,6 +86,48 @@ class _ManageAdminScreenState extends State<ManageAdminScreen> {
         },
         // tooltip: 'Increment',
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget adminCard(String name, String email) {
+    return Card(
+      color: Colors.white,
+      elevation: 6,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: ListTile(
+        title: Text(name,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+            )),
+        trailing: IconButton(
+          icon: const Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+          onPressed: () => showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('การแจ้งเตือน'),
+              content: Text('คุณต้องการลบ ' + name + ' หรือไม่'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'ยกเลิก'),
+                  child: const Text('ยกเลิก'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await DeleteAccountService(email);
+                    reFresh();
+                    Navigator.pop(context, 'ลบ');
+                  },
+                  child: const Text('ยืนยัน'),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
