@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
 import 'package:proj/screen/Admin/add_device_screen.dart';
+import 'package:proj/screen/Admin/edit_device_screen.dart';
 
 import '../../model/AccountModel.dart';
 import '../../model/ManageDeviceModel.dart';
@@ -213,7 +214,10 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(onPressed: (){}, child: Text('แก้ไข')),
+                    TextButton(onPressed: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => EditDeviceScreen()));
+                    }, child: Text('แก้ไข')),
                     Transform.scale(
                       scale: 0.7,
                       child: CupertinoSwitch(
