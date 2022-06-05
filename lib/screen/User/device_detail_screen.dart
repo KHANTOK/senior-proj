@@ -82,7 +82,12 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                 color: kPrimaryColor,
                 //iconSize: 24,
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return SearchScreen(
+                      name: widget.name,
+                      email: widget.email,
+                    );
+                  }));
                 },
               ),
               actions: [
@@ -123,7 +128,13 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                 color: kPrimaryColor,
                 //iconSize: 24,
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return SearchScreen(
+                      name: widget.name,
+                      email: widget.email,
+                      admin: true,
+                    );
+                  }));
                 },
               ),
             ),

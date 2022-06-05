@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
+import 'package:proj/components/Loading.dart';
 import 'package:proj/model/AccountModel.dart';
 import 'package:proj/screen/Admin/create_acc_screen.dart';
 import 'package:proj/screen/Admin/home_screen.dart';
@@ -20,9 +21,11 @@ class ManageAdminScreen extends StatefulWidget {
 
 class _ManageAdminScreenState extends State<ManageAdminScreen> {
   List<AccountModel> account = [];
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
+    print(widget.name);
     getAllAccount();
   }
 
@@ -31,9 +34,13 @@ class _ManageAdminScreenState extends State<ManageAdminScreen> {
   }
 
   void getAllAccount() async {
+    setState(() {
+      isLoading = true;
+    });
     var response = await GetAccountService();
     setState(() {
       account = response;
+      isLoading = false;
     });
   }
 
@@ -63,20 +70,23 @@ class _ManageAdminScreenState extends State<ManageAdminScreen> {
           },
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
-                children: <Widget>[
-                  for (var i = 0; i < account.length; i++)
-                    adminCard(account[i].name, account[i].email)
-                ]),
-          ),
-        ],
-      ),
+      body: isLoading
+          ? LoadingCircle()
+          : Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView(
+                      padding: const EdgeInsets.symmetric(horizontal: 26),
+                      children: <Widget>[
+                        for (var i = 0; i < account.length; i++)
+                          adminCard(account[i].name, account[i].email)
+                      ]),
+                ),
+              ],
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          print(widget.name);
           Navigator.push(
             context,
             MaterialPageRoute(

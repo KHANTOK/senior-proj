@@ -33,6 +33,7 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
   @override
   void initState() {
     getDeviceAll();
+    print(widget.name);
     super.initState();
   }
 

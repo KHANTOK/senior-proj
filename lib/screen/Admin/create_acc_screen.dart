@@ -3,7 +3,6 @@ import 'package:proj/color.dart';
 import 'package:proj/screen/Admin/manage_admin_screen.dart';
 import 'package:proj/widget/button.dart';
 
-import '../../components/Loading.dart';
 import '../../services/AccountService.dart';
 
 class CreateAccScreen extends StatefulWidget {
@@ -43,7 +42,12 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
             ),
             color: kPrimaryColor,
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ManageAdminScreen(
+                  name: widget.name,
+                  email: widget.email,
+                );
+              }));
             },
           ),
         ),
@@ -105,6 +109,7 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                             isLoading = false;
                           });
                           // after create account จะย้อนกลับไปหน้าก่อนหน้านี้
+                          print(widget.name);
                           Navigator.push(
                               context,
                               MaterialPageRoute(

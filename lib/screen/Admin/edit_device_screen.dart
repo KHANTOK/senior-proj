@@ -74,7 +74,12 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
           ),
           color: kPrimaryColor,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ManageDeviceScreen(
+                name: widget.name,
+                email: widget.email,
+              );
+            }));
           },
         ),
       ),
