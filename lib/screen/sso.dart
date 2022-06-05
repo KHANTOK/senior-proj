@@ -28,10 +28,9 @@ class _SSOScreenState extends State<SSOScreen> {
         _controller
             .runJavascriptReturningResult("document.documentElement.innerHTML")
             .then((value) {
-          var response = jsonDecode(value);
           var data =
-              response.toString().substring(19, response.toString().length - 7);
-          Map<String, dynamic> map = jsonDecode(data);
+              value.toString().substring(19, value.toString().length - 7);
+          Map<String, dynamic> map = json.decode(data);
 
           if (map['message'] == "success") {
             Navigator.push(
