@@ -18,8 +18,13 @@ Future<List<DeviceModel>> DeviceService() async {
       json.decode(response.body).map((data) => DeviceModel.fromJson(data)));
 }
 
-Future<String> SaveDeviceFromAPIKKUService() async {
-  final uri = Uri.https(Host, '/importDevices');
+Future<String> SaveDeviceFromAPIKKUService(
+    String bib_id, String device_name) async {
+  Map<String, dynamic> queryParameters = {
+    'bib_id': bib_id,
+    'device_name': device_name,
+  };
+  final uri = Uri.https(Host, '/importDevices', queryParameters);
   final response = await http.get(
     uri,
     headers: <String, String>{

@@ -162,7 +162,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                 });
                                 await ImportOtherDeviceService(
                                     bibId, deviceName, accession, duration);
-                                await SaveDeviceFromAPIKKUService();
+                                await SaveDeviceFromAPIKKUService(
+                                    bibId, deviceName);
                                 setState(() {
                                   isLoading = false;
                                 });

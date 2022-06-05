@@ -161,7 +161,7 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                 size: 50,
               ),
               errorWidget: const Icon(
-                Icons.error,
+                Icons.no_photography,
                 size: 50,
               ),
             ),

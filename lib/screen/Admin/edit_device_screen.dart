@@ -231,6 +231,9 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                                                       accession,
                                                       duration);
                                               if (response == "success") {
+                                                accession = '';
+                                                duration = duration.substring(
+                                                    0, duration.length - 4);
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -240,9 +243,6 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                                                               email:
                                                                   widget.email,
                                                             )));
-                                                accession = '';
-                                                duration = duration.substring(
-                                                    0, duration.length - 4);
                                               }
                                             },
                                             child: const Text('ยืนยัน'),
