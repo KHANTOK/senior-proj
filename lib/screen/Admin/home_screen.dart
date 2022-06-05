@@ -38,6 +38,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
               iconSize: 24,
               color: kPrimaryColor,
               onPressed: () {
+                print(widget.name);
                 Navigator.push(
                   context,
                   MaterialPageRoute(

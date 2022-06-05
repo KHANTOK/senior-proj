@@ -141,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           builder: (context) => ProfileScreen(
                             name: widget.name,
                             email: widget.email,
-                            admin: widget.admin,
+                            admin: true,
                           ),
                         ),
                       );

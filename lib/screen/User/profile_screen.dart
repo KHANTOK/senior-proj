@@ -28,6 +28,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final String _number = '082-548-4163';
 
   @override
+  void initState() {
+    print(widget.name);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -38,14 +44,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
               iconSize: 24,
               color: Colors.white,
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SearchScreen(
-                            name: widget.name,
-                            email: widget.email,
-                          )),
-                );
+                if (widget.admin != null) {
+                  if (widget.admin == true) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SearchScreen(
+                                name: widget.name,
+                                email: widget.email,
+                                admin: true,
+                              )),
+                    );
+                  }
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SearchScreen(
+                              name: widget.name,
+                              email: widget.email,
+                            )),
+                  );
+                }
               }),
           IconButton(
               icon: const Icon(Icons.logout),
@@ -53,12 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               color: Colors.white,
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen())
-                    // HomeAdminScreen(
-                    //       name: widget.name,
-                    //       email: widget.email,
-                    //     )),
-                    );
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
               })
         ], // remove back button
         automaticallyImplyLeading: false,
@@ -140,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 50),
               children: [
                 Visibility(
-                  visible: widget.admin!,
+                  visible: widget.admin != null ? widget.admin! : false,
                   child: Card(
                     color: Colors.white,
                     elevation: 6,
@@ -173,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: !widget.admin!,
+                  visible: widget.admin == null ? true : false,
                   child: Card(
                     color: Colors.white,
                     elevation: 6,

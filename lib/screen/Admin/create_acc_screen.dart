@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
+import 'package:proj/screen/Admin/manage_admin_screen.dart';
 import 'package:proj/widget/button.dart';
 
 import '../../components/Loading.dart';
 import '../../services/AccountService.dart';
 
 class CreateAccScreen extends StatefulWidget {
-  const CreateAccScreen({Key? key}) : super(key: key);
+  final String name;
+  final String email;
+  const CreateAccScreen({Key? key, required this.name, required this.email})
+      : super(key: key);
 
   @override
   _CreateAccScreenState createState() => _CreateAccScreenState();
@@ -101,7 +105,13 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                             isLoading = false;
                           });
                           // after create account จะย้อนกลับไปหน้าก่อนหน้านี้
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageAdminScreen(
+                                        name: widget.name,
+                                        email: widget.email,
+                                      )));
                         }
                       },
                       height: 48,

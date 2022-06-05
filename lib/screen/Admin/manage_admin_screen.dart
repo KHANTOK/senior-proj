@@ -80,7 +80,8 @@ class _ManageAdminScreenState extends State<ManageAdminScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CreateAccScreen(),
+              builder: (context) =>
+                  CreateAccScreen(name: widget.name, email: widget.email),
             ),
           );
         },
