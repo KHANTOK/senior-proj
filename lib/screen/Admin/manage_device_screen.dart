@@ -5,7 +5,6 @@ import 'package:proj/color.dart';
 import 'package:proj/screen/Admin/add_device_screen.dart';
 import 'package:proj/screen/Admin/edit_device_screen.dart';
 
-import '../../model/AccountModel.dart';
 import '../../model/ManageDeviceModel.dart';
 import '../../services/ManageDeviceService.dart';
 import 'home_screen.dart';
@@ -214,10 +213,22 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(onPressed: (){
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => EditDeviceScreen()));
-                    }, child: Text('แก้ไข')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditDeviceScreen(
+                                        name: widget.name,
+                                        email: widget.email,
+                                        img: img,
+                                        bib_id: bib_id,
+                                        device_name: name,
+                                        accession: accession,
+                                        duration: duration,
+                                      )));
+                        },
+                        child: Text('แก้ไข')),
                     Transform.scale(
                       scale: 0.7,
                       child: CupertinoSwitch(
@@ -236,10 +247,29 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                       ),
                     ),
                     IconButton(
-                        onPressed: () async {
-                          await DeleteDeviceService(bib_id);
-                          reFresh();
-                        },
+                        onPressed: () => showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('การแจ้งเตือน'),
+                                content:
+                                    Text('คุณต้องการลบ ' + name + ' หรือไม่'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'ยกเลิก'),
+                                    child: const Text('ยกเลิก'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      await DeleteDeviceService(bib_id);
+                                      reFresh();
+                                      Navigator.pop(context, 'ลบ');
+                                    },
+                                    child: const Text('ยืนยัน'),
+                                  ),
+                                ],
+                              ),
+                            ),
                         icon: const Icon(
                           Icons.delete,
                           color: Colors.red,

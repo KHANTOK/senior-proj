@@ -1,21 +1,61 @@
+import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
+import 'package:proj/components/Loading.dart';
+import 'package:proj/model/EditDeviceModel.dart';
 import 'package:proj/widget/button.dart';
 
+import '../../services/DeviceService.dart';
+import 'manage_device_screen.dart';
+
 class EditDeviceScreen extends StatefulWidget {
-  const EditDeviceScreen({Key? key}) : super(key: key);
+  final String name;
+  final String email;
+  final String img;
+  final String bib_id;
+  final String device_name;
+  final String accession;
+  final String duration;
+  const EditDeviceScreen({
+    Key? key,
+    required this.name,
+    required this.email,
+    required this.img,
+    required this.bib_id,
+    required this.device_name,
+    required this.accession,
+    required this.duration,
+  }) : super(key: key);
 
   @override
   State<EditDeviceScreen> createState() => _EditDeviceScreenState();
 }
 
 class _EditDeviceScreenState extends State<EditDeviceScreen> {
+  EditDeviceModel edit_device = EditDeviceModel(bibId: "", deviceName: "");
+  String bib_id = "";
+  String name = "";
+  String accession = "";
+  String duration = "";
   List<String> chipList = [
     "บุคลากร",
     "อาจารย์",
     "นักศึกษา",
   ];
   List<String> selectedChoiceList = [];
+  bool isLoading = false;
+  bool fromApi = false;
+  @override
+  void initState() {
+    reFresh();
+    super.initState();
+  }
+
+  void reFresh() {
+    name = widget.device_name;
+    selectedChoiceList = widget.accession.split(' ');
+    duration = widget.duration.substring(0, widget.duration.length - 4);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,115 +78,186 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(26),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: SizedBox(
-                  height: 138,
-                  width: 200,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Container(
-                        color: Colors.grey,
-                      ),
-                      Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: SizedBox(
-                          height: 46,
-                          width: 46,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: const Icon(
-                              Icons.camera_alt_outlined,
-                              size: 20,
-                              color: Colors.white,
+      body: isLoading
+          ? LoadingCircle()
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(26),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: SizedBox(
+                        height: 138,
+                        width: 200,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          clipBehavior: Clip.none,
+                          children: [
+                            Image(
+                              image: NetworkImage(widget.img),
+                              height: 250,
+                              width: 250,
                             ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    TextFormField(
+                      controller: TextEditingController(text: widget.bib_id),
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'BIB ID',
+                        labelStyle: TextStyle(color: kPrimaryColor),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          bib_id = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: TextEditingController(
+                          text: fromApi ? name : widget.device_name),
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'ชื่ออุปกรณ์',
+                        labelStyle: TextStyle(color: kPrimaryColor),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          name = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "ผู้มีสิทธิ์ยืม",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Wrap(
+                      spacing: 15.0,
+                      runSpacing: 5.0,
+                      children: <Widget>[
+                        for (var i = 0; i < chipList.length; i++)
+                          selectedChoice(chipList[i])
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: <Widget>[
+                        const Text(
+                          "ระยะการยืม",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 20),
+                        Flexible(
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: '1',
+                                hintStyle: TextStyle(fontSize: 16),
+                                // change the TextField height
+                                contentPadding: EdgeInsets.all(10)),
+                            initialValue: duration,
+                            onChanged: (value) {
+                              setState(() {
+                                duration = value;
+                              });
+                            },
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'BIB ID',
-                  labelStyle: TextStyle(color: kPrimaryColor),
-                ),
-              ),
-              const SizedBox(height: 20),
-              const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'ชื่ออุปกรณ์',
-                  labelStyle: TextStyle(color: kPrimaryColor),
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "ผู้มีสิทธิ์ยืม",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Wrap(
-                spacing: 15.0,
-                runSpacing: 5.0,
-                children: <Widget>[
-                  for (var i = 0; i < chipList.length; i++)
-                    selectedChoice(chipList[i])
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: <Widget>[
-                  const Text(
-                    "ระยะการยืม",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(width: 20),
-                  Flexible(
-                    child: TextField(
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: '1',
-                          hintStyle: TextStyle(fontSize: 16),
-                          // change the TextField height
-                          contentPadding: EdgeInsets.all(10)),
+                        const SizedBox(width: 15),
+                        const Text("วัน", style: TextStyle(fontSize: 16)),
+                      ],
                     ),
-                  ),
-                  const SizedBox(width: 15),
-                  const Text("วัน", style: TextStyle(fontSize: 16)),
-                ],
+                    const SizedBox(height: 50),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppsButton.button(
+                            label: "เรียกจาก api",
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              var response =
+                                  await EditDeviceCallAPIService(widget.bib_id);
+                              setState(() {
+                                edit_device = response;
+                                setState(() {
+                                  name = edit_device.deviceName;
+                                });
+                                fromApi = true;
+                                isLoading = false;
+                              });
+                            },
+                            height: 48,
+                            width: 150),
+                        const SizedBox(width: 20),
+                        AppsButton.button(
+                            label: "บันทึก",
+                            onPressed: () {
+                              showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                        title: const Text('การแจ้งเตือน'),
+                                        content: const Text(
+                                            'คุณต้องการบันทึกหรือไม่'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                context, 'ยกเลิก'),
+                                            child: const Text('ยกเลิก'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () async {
+                                              duration += " วัน";
+                                              for (var i = 0;
+                                                  i < selectedChoiceList.length;
+                                                  i++) {
+                                                accession +=
+                                                    selectedChoiceList[i] + " ";
+                                              }
+                                              var response =
+                                                  await updateDeviceService(
+                                                      widget.bib_id,
+                                                      name,
+                                                      accession,
+                                                      duration);
+                                              if (response == "success") {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ManageDeviceScreen(
+                                                              name: widget.name,
+                                                              email:
+                                                                  widget.email,
+                                                            )));
+                                                accession = '';
+                                                duration = duration.substring(
+                                                    0, duration.length - 4);
+                                              }
+                                            },
+                                            child: const Text('ยืนยัน'),
+                                          ),
+                                        ],
+                                      ));
+                            },
+                            height: 48,
+                            width: 150),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppsButton.button(
-                  label: "เรียกจาก api",
-                  onPressed: () {},
-                  height: 48,
-                  width: 150),
-                  SizedBox(width: 20),
-                  AppsButton.button(
-                  label: "บันทึก",
-                  onPressed: () {},
-                  height: 48,
-                  width: 150),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -170,7 +281,6 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
           } else {
             selectedChoiceList.add(item);
           }
-          print(selectedChoiceList.toString());
         });
       },
     );

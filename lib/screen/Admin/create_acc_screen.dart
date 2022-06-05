@@ -17,6 +17,8 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
+  final formKey = GlobalKey<FormState>();
+
   // ตัวแปรสำหรับ call api
   bool isLoading = false;
 
@@ -43,51 +45,70 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 26),
-          child: Column(
-            children: <Widget>[
-              const SizedBox(height: 15),
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'ชื่อและนามสกุล',
-                  labelStyle: TextStyle(color: kPrimaryColor),
-                  helperText: 'ตัวอย่าง : มาณี อุดมสุข',
-                ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 15),
+                TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'อีเมล',
+                    labelText: 'ชื่อและนามสกุล',
                     labelStyle: TextStyle(color: kPrimaryColor),
-                    helperText: 'ตัวอย่าง : manee@kku.ac.th'),
-              ),
-              const SizedBox(height: 15),
-              SizedBox(
-                child: AppsButton.button(
-                    label: isLoading ? "กำลังสร้างบัญชี.." : "สร้างบัญชี",
-                    onPressed: () async {
-                      // call api create account
-                      setState(() {
-                        isLoading = true;
-                      });
-                      await CreateAccountService(
-                        nameController.text,
-                        emailController.text,
-                      );
-                      setState(() {
-                        isLoading = false;
-                      });
-
-                      // after create account จะย้อนกลับไปหน้าก่อนหน้านี้
-                      Navigator.pop(context);
-                    },
-                    height: 48,
-                    width: 300),
-              ),
-            ],
+                    helperText: 'ตัวอย่าง : มาณี อุดมสุข',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'กรุณากรอกชื่อและนามสกุล';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'อีเมล',
+                      labelStyle: TextStyle(color: kPrimaryColor),
+                      helperText: 'ตัวอย่าง : manee@kku.ac.th'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'กรุณากรอกอีเมลล์';
+                    }
+                    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                      return "กรุณากรอกอีเมลให้ถูกต้อง";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                SizedBox(
+                  child: AppsButton.button(
+                      label: isLoading ? "กำลังสร้างบัญชี.." : "สร้างบัญชี",
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          // call api create account
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await CreateAccountService(
+                            nameController.text,
+                            emailController.text,
+                          );
+                          setState(() {
+                            isLoading = false;
+                          });
+                          // after create account จะย้อนกลับไปหน้าก่อนหน้านี้
+                          Navigator.pop(context);
+                        }
+                      },
+                      height: 48,
+                      width: 300),
+                ),
+              ],
+            ),
           ),
         ));
   }

@@ -44,6 +44,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                       builder: (context) => SearchScreen(
                             name: widget.name,
                             email: widget.email,
+                            admin: true,
                           )),
                 );
               }),
@@ -88,7 +89,10 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ManageAdminScreen(name: '', email: '',)));
+                                builder: (context) => const ManageAdminScreen(
+                                      name: '',
+                                      email: '',
+                                    )));
                       },
                     )
                   ],

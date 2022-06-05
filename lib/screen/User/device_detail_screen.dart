@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
 import 'package:proj/model/device_data.dart';
 import 'package:proj/model/item_fav.dart';
+import 'package:proj/screen/Admin/create_acc_screen.dart';
 import 'package:proj/screen/User/search_screen.dart';
 import 'package:proj/widget/showTitle.dart';
 
@@ -16,6 +17,7 @@ class DeviceDetailScreen extends StatefulWidget {
   final String image;
   final String name;
   final String email;
+  final bool? admin;
 
   const DeviceDetailScreen({
     Key? key,
@@ -23,6 +25,7 @@ class DeviceDetailScreen extends StatefulWidget {
     required this.image,
     required this.name,
     required this.email,
+    this.admin,
   }) : super(key: key);
 
   @override
@@ -65,47 +68,65 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 65,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: showTitle(),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-          ),
-          color: kPrimaryColor,
-          //iconSize: 24,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              setState(() {
-                // Here we changing the icon.
-                toggle = !toggle;
-              });
-              if (toggle == true) {
-                await updateFavoriteService(widget.id, "1");
-              } else {
-                await updateFavoriteService(widget.id, "0");
-              }
-            },
-            icon: toggle
-                ? const Icon(
-                    Icons.favorite,
-                    color: kPrimaryColor,
-                  )
-                : const Icon(
-                    Icons.favorite_border,
-                    color: kPrimaryColor,
-                  ),
-          )
-        ],
-      ),
+      appBar: widget.admin == null
+          ? AppBar(
+              toolbarHeight: 65,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              centerTitle: true,
+              title: showTitle(),
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                ),
+                color: kPrimaryColor,
+                //iconSize: 24,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () async {
+                    setState(() {
+                      // Here we changing the icon.
+                      toggle = !toggle;
+                    });
+                    if (toggle == true) {
+                      await updateFavoriteService(widget.id, "1");
+                    } else {
+                      await updateFavoriteService(widget.id, "0");
+                    }
+                  },
+                  icon: toggle
+                      ? const Icon(
+                          Icons.favorite,
+                          color: kPrimaryColor,
+                        )
+                      : const Icon(
+                          Icons.favorite_border,
+                          color: kPrimaryColor,
+                        ),
+                )
+              ],
+            )
+          : AppBar(
+              toolbarHeight: 65,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              centerTitle: true,
+              title: showTitle(),
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                ),
+                color: kPrimaryColor,
+                //iconSize: 24,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
       body: isLoading
           ? LoadingCircle()
           : SingleChildScrollView(
@@ -206,14 +227,18 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.75,
-                      child: Wrap(
-                        alignment: WrapAlignment.spaceBetween,
-                        spacing: 15.0,
-                        runSpacing: 6.0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // alignment: WrapAlignment.spaceBetween,
+                        // spacing: 15.0,
+                        // runSpacing: 6.0,
                         children: [
                           for (var i = 0; i < deviceDetail.location.length; i++)
-                            cardItem(deviceDetail.location[i].locationName,
-                                deviceDetail.location[i].count.toString()),
+                            cardItem(
+                                deviceDetail.location[i].locationName,
+                                deviceDetail.location[i].count.toString(),
+                                deviceDetail.location[i].colorCode),
                         ],
                       ),
                     ),
@@ -227,7 +252,9 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
     );
   }
 
-  Widget cardItem(String locationName, String locationCount) {
+  Widget cardItem(String locationName, String locationCount, String color) {
+    String color1 = "0xFF" + color;
+    int colorInt = int.parse(color1);
     return ActionChip(
       onPressed: () {
         Navigator.push(
@@ -240,20 +267,30 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                     )));
       },
       labelPadding: const EdgeInsets.all(2.0),
-      avatar: CircleAvatar(
-        backgroundColor: Colors.white70,
-        child: Text(locationCount),
+      label: Wrap(
+        children: [
+          Text(
+            locationName,
+            style: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.055,
+            height: MediaQuery.of(context).size.width * 0.055,
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Text(locationCount),
+            ),
+          ),
+        ],
       ),
-      label: Text(
-        locationName,
-        style: const TextStyle(
-          color: Colors.black,
-        ),
-      ),
-      backgroundColor: Colors.white,
+      backgroundColor: Color(colorInt).withOpacity(0.3),
       elevation: 6.0,
       shadowColor: kPrimaryColor,
-      // Colors.grey[60],
       padding: const EdgeInsets.all(8.0),
     );
   }

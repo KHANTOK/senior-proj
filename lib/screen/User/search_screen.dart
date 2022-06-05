@@ -15,11 +15,13 @@ class SearchScreen extends StatefulWidget {
   final String name;
   final String email;
   final String? thname;
+  final bool? admin;
   const SearchScreen({
     Key? key,
     required this.name,
     required this.email,
     this.thname,
+    this.admin,
   }) : super(key: key);
 
   @override
@@ -131,14 +133,30 @@ class _SearchScreenState extends State<SearchScreen> {
                 iconSize: 24,
                 color: kPrimaryColor,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
+                  if (widget.admin != null) {
+                    if (widget.admin == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(
+                            name: widget.name,
+                            email: widget.email,
+                            admin: widget.admin,
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
                         builder: (context) => ProfileScreen(
-                              name: widget.name,
-                              email: widget.email,
-                            )),
-                  );
+                          name: widget.name,
+                          email: widget.email,
+                        ),
+                      ),
+                    );
+                  }
                 }),
             IconButton(
                 icon: const Icon(Icons.logout),
@@ -242,15 +260,30 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DeviceDetailScreen(
-                        id: name,
-                        image: img,
-                        name: widget.name,
-                        email: widget.email,
-                      )));
+          if (widget.admin != null) {
+            if (widget.admin == true) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DeviceDetailScreen(
+                            id: name,
+                            image: img,
+                            name: widget.name,
+                            email: widget.email,
+                            admin: widget.admin,
+                          )));
+            }
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DeviceDetailScreen(
+                          id: name,
+                          image: img,
+                          name: widget.name,
+                          email: widget.email,
+                        )));
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,

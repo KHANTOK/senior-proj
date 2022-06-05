@@ -53,21 +53,25 @@ class Location {
     required this.shortName,
     required this.locationName,
     required this.count,
+    required this.colorCode,
   });
 
   String shortName;
   String locationName;
   String count;
+  String colorCode;
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         shortName: json["shortName"],
         locationName: json["locationName"],
         count: json["count"],
+        colorCode: json["colorCode"],
       );
 
   Map<String, dynamic> toJson() => {
         "shortName": shortName,
         "locationName": locationName,
         "count": count,
+        "colorCode": colorCode,
       };
 }

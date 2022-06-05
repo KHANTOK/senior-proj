@@ -10,13 +10,11 @@ Widget showTitle() {
         fontWeight: FontWeight.bold,
         fontSize: 22,
       ),
-      textAlign: TextAlign.center,
     ),
     subtitle: Text(
       "มหาวิทยาลัยขอนแก่น",
       style: TextStyle(
           color: kPrimaryLightColor, fontWeight: FontWeight.bold, fontSize: 18),
-      textAlign: TextAlign.center,
     ),
   );
 }

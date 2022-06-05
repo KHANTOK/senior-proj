@@ -12,10 +12,12 @@ import '../../model/AccountModel.dart';
 class ProfileScreen extends StatefulWidget {
   final String name;
   final String email;
+  final bool? admin;
   const ProfileScreen({
     Key? key,
     required this.name,
     required this.email,
+    this.admin,
   }) : super(key: key);
 
   @override
@@ -50,15 +52,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               iconSize: 24,
               color: Colors.white,
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => LoginScreen())
-                      // HomeAdminScreen(
-                      //       name: widget.name,
-                      //       email: widget.email,
-                      //     )),
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen())
+                    // HomeAdminScreen(
+                    //       name: widget.name,
+                    //       email: widget.email,
+                    //     )),
+                    );
               })
         ], // remove back button
         automaticallyImplyLeading: false,
@@ -94,33 +94,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     label: 'ติดต่อเจ้าหน้าที่',
                     onPressed: () {
                       showDialog(
-                        context: context, 
-                        builder: (BuildContext context) => AlertDialog(
-                          title: ListTile(
-                            title: Text('ติดต่อเจ้าหน้าที่', style: TextStyle(fontSize: 24),),
-                            subtitle: Text('สำนักหอสมุด มหาวิทยาลัยขอนแก่น 123 ถนนมิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น 40002',
-                            style: TextStyle(fontSize: 15),),
-                          ),
-                          
-                          content: ListTile(
-                            title: Text('Max : 082-548-4163'),
-                            trailing: TextButton(
-                            child: Text('call'),
-                            onPressed: () async {
-                              final _call = 'tel:$_number';
-                              final _text = 'sms:$_number';
-                              if (await canLaunch(_call)) {
-                                await launch(_call);
-                              }
-                            },
-                            ),),
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                title: ListTile(
+                                  title: Text(
+                                    'ติดต่อเจ้าหน้าที่',
+                                    style: TextStyle(fontSize: 24),
+                                  ),
+                                  subtitle: Text(
+                                    'สำนักหอสมุด มหาวิทยาลัยขอนแก่น 123 ถนนมิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น 40002',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
 
-                          // Text('Max : 082-548-4163'),
-                          actions: [
-                            TextButton(onPressed: () => Navigator.pop(context, 'OK'), 
-                            child: Text('OK'))
-                          ],
-                        ));
+                                content: ListTile(
+                                  title: Text('Max : 082-548-4163'),
+                                  trailing: TextButton(
+                                    child: Text('call'),
+                                    onPressed: () async {
+                                      final _call = 'tel:$_number';
+                                      final _text = 'sms:$_number';
+                                      if (await canLaunch(_call)) {
+                                        await launch(_call);
+                                      }
+                                    },
+                                  ),
+                                ),
+
+                                // Text('Max : 082-548-4163'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'OK'),
+                                      child: Text('OK'))
+                                ],
+                              ));
                     },
                     height: 34,
                     width: 150)
@@ -131,34 +139,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 50),
               children: [
-                Card(
-                  color: Colors.white,
-                  elevation: 6,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ListTile(
-                        leading: const Icon(
-                          Icons.favorite,
-                          color: accentColor,
-                        ),
-                        title: const Text("รายการโปรด",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold)),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FavScreen(
-                                        name: widget.name,
-                                        email: widget.email,
-                                      )));
-                        },
-                      )
-                    ],
+                Visibility(
+                  visible: widget.admin!,
+                  child: Card(
+                    color: Colors.white,
+                    elevation: 6,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ListTile(
+                          leading: const Icon(
+                            Icons.home,
+                            color: accentColor,
+                          ),
+                          title: const Text("หน้าหลักแอดมิน",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold)),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeAdminScreen(
+                                          name: widget.name,
+                                          email: widget.email,
+                                        )));
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: !widget.admin!,
+                  child: Card(
+                    color: Colors.white,
+                    elevation: 6,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ListTile(
+                          leading: const Icon(
+                            Icons.favorite,
+                            color: accentColor,
+                          ),
+                          title: const Text("รายการโปรด",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold)),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FavScreen(
+                                          name: widget.name,
+                                          email: widget.email,
+                                        )));
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Card(
