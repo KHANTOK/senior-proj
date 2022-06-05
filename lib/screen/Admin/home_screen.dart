@@ -7,6 +7,8 @@ import 'package:proj/screen/User/search_screen.dart';
 import 'package:proj/screen/login.dart';
 import 'package:proj/widget/showTitle.dart';
 
+import '../logoutSSO.dart';
+
 class HomeAdminScreen extends StatefulWidget {
   final String name;
   final String email;

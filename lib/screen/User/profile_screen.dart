@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:proj/color.dart';
 import 'package:proj/screen/Admin/home_screen.dart';
 import 'package:proj/screen/User/fav_screen.dart';
@@ -8,6 +9,7 @@ import 'package:proj/widget/button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/AccountModel.dart';
+import '../logoutSSO.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String name;
@@ -26,12 +28,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final String _number = '082-548-4163';
-
-  @override
-  void initState() {
-    print(widget.name);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +68,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               iconSize: 24,
               color: Colors.white,
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                if (widget.admin != null) {
+                  if (widget.admin == true) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                    );
+                  }
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LogoutSSOScreen()),
+                  );
+                }
               })
         ], // remove back button
         automaticallyImplyLeading: false,

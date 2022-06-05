@@ -10,6 +10,7 @@ import 'package:proj/widget/showTitle.dart';
 
 import '../../model/DeviceModel.dart';
 import '../../services/DeviceService.dart';
+import '../logoutSSO.dart';
 
 class SearchScreen extends StatefulWidget {
   final String name;
@@ -163,11 +164,23 @@ class _SearchScreenState extends State<SearchScreen> {
                 iconSize: 24,
                 color: kPrimaryColor,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginScreen()),
-                  );
+                  if (widget.admin != null) {
+                    if (widget.admin == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    }
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LogoutSSOScreen(),
+                      ),
+                    );
+                  }
                 })
           ],
           // remove back button
