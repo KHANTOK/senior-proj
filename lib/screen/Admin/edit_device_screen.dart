@@ -95,10 +95,14 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                           clipBehavior: Clip.none,
                           children: [
                             Image(
-                              image: NetworkImage(widget.img),
-                              height: 250,
-                              width: 250,
-                            ),
+                                image: NetworkImage(widget.img),
+                                height: 250,
+                                width: 250,
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return const Icon(Icons.no_photography,
+                                      size: 100, color: Colors.grey);
+                                }),
                           ],
                         ),
                       ),

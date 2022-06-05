@@ -157,7 +157,7 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
               backgroundColor: Colors.red,
               imagePath: img,
               placeHolder: const Icon(
-                Icons.person,
+                Icons.no_photography,
                 size: 50,
               ),
               errorWidget: const Icon(
@@ -215,6 +215,7 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                   children: [
                     TextButton(
                         onPressed: () {
+                          print(img);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
