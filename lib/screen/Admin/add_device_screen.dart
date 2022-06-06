@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
+import 'package:proj/components/Loading.dart';
 import 'package:proj/widget/button.dart';
 
 import '../../services/DeviceService.dart';
@@ -150,7 +151,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 ),
                 const SizedBox(height: 50),
                 isLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? LoadingCircle()
                     : Center(
                         child: AppsButton.button(
                             label: "เพิ่มอุปกรณ์",

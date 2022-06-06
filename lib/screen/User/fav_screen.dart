@@ -86,7 +86,7 @@ class _FavScreenState extends State<FavScreen> {
         ],
       ),
       body: isLoading
-          ? Center(child: LoadingCircle())
+          ? LoadingCircle()
           : SingleChildScrollView(
               child: Column(
               children: [

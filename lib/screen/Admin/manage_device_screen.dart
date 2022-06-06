@@ -2,6 +2,7 @@ import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
+import 'package:proj/components/Loading.dart';
 import 'package:proj/screen/Admin/add_device_screen.dart';
 import 'package:proj/screen/Admin/edit_device_screen.dart';
 
@@ -86,9 +87,7 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
         ),
       ),
       body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? LoadingCircle()
           : SingleChildScrollView(
               child: Column(
                 children: <Widget>[
