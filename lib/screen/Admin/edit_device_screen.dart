@@ -45,6 +45,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
   List<String> selectedChoiceList = [];
   bool isLoading = false;
   bool fromApi = false;
+  bool isOnChange = false;
   @override
   void initState() {
     reFresh();
@@ -127,20 +128,35 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                       },
                     ),
                     const SizedBox(height: 20),
-                    TextFormField(
-                      controller: TextEditingController(
-                          text: fromApi ? name : widget.device_name),
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'ชื่ออุปกรณ์',
-                        labelStyle: TextStyle(color: kPrimaryColor),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          name = value;
-                        });
-                      },
-                    ),
+                    isOnChange
+                        ? TextFormField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'ชื่ออุปกรณ์',
+                              labelStyle: TextStyle(color: kPrimaryColor),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                isOnChange = true;
+                                name = value;
+                              });
+                            },
+                          )
+                        : TextFormField(
+                            controller: TextEditingController(
+                                text: fromApi ? name : widget.device_name),
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'ชื่ออุปกรณ์',
+                              labelStyle: TextStyle(color: kPrimaryColor),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                isOnChange = true;
+                                name = value;
+                              });
+                            },
+                          ),
                     const SizedBox(height: 20),
                     const Text(
                       "ผู้มีสิทธิ์ยืม",
@@ -202,6 +218,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                                   name = edit_device.deviceName;
                                 });
                                 fromApi = true;
+                                isOnChange = false;
                                 isLoading = false;
                               });
                             },
@@ -211,6 +228,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                         AppsButton.button(
                             label: "บันทึก",
                             onPressed: () {
+                              print(name);
                               showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) =>
