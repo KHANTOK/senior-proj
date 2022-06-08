@@ -58,7 +58,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  MaterialPageRoute(builder: (context) => LogoutSSOScreen()),
                 );
               })
         ],

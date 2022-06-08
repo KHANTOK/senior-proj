@@ -68,20 +68,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               iconSize: 24,
               color: Colors.white,
               onPressed: () {
-                if (widget.admin != null) {
-                  if (widget.admin == true) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()),
-                    );
-                  }
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LogoutSSOScreen()),
-                  );
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LogoutSSOScreen()),
+                );
               })
         ], // remove back button
         automaticallyImplyLeading: false,
