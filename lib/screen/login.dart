@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:proj/screen/User/search_screen.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:proj/screen/sso.dart';
 import 'package:proj/widget/button.dart';
 
 import '../components/Loading.dart';
 import '../services/AccountService.dart';
-import 'Admin/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final LocalStorage storage = LocalStorage('');
   final formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -116,16 +116,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                       isLoading = false;
                                     });
                                     if (login.email != "") {
+                                      storage.setItem("admin", true);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => HomeAdminScreen(
-                                            name: login.name,
-                                            email: login.email,
-                                          ),
+                                          builder: (context) => SSOScreen(),
                                         ),
                                       );
                                     } else {
+                                      storage.setItem("admin", false);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

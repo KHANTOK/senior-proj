@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'Admin/home_screen.dart';
 import 'User/search_screen.dart';
 
 class SSOScreen extends StatefulWidget {
@@ -38,16 +39,29 @@ class _SSOScreenState extends State<SSOScreen> {
           Map<String, dynamic> map = json.decode(data);
 
           if (map['message'] == "success") {
-            storage.setItem('token', token);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SearchScreen(
-                  email: map['email'],
-                  name: map['firstname'] + " " + map['lastname'],
+            if (storage.getItem('admin')) {
+              storage.setItem('token', token);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeAdminScreen(
+                    name: map['firstname'] + " " + map['lastname'],
+                    email: map['email'],
+                  ),
                 ),
-              ),
-            );
+              );
+            } else {
+              storage.setItem('token', token);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(
+                    name: map['firstname'] + " " + map['lastname'],
+                    email: map['email'],
+                  ),
+                ),
+              );
+            }
           } else {
             Navigator.pop(context);
           }
