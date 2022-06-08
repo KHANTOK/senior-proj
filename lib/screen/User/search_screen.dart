@@ -164,23 +164,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 iconSize: 24,
                 color: kPrimaryColor,
                 onPressed: () {
-                  if (widget.admin != null) {
-                    if (widget.admin == true) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
-                    }
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LogoutSSOScreen(),
-                      ),
-                    );
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LogoutSSOScreen(),
+                    ),
+                  );
                 })
           ],
           // remove back button
