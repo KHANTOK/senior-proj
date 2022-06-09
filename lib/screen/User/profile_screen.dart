@@ -121,9 +121,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
 
                                 content: ListTile(
-                                  title: Text('Max : 082-548-4163'),
+                                  title: Text('หมายเลขโทรศัพท์ :'),
                                   trailing: TextButton(
-                                    child: Text('call'),
+                                    child: Text('082-548-4163'),
                                     onPressed: () async {
                                       final _call = 'tel:$_number';
                                       final _text = 'sms:$_number';
@@ -133,13 +133,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     },
                                   ),
                                 ),
-
-                                // Text('Max : 082-548-4163'),
                                 actions: [
                                   TextButton(
                                       onPressed: () =>
                                           Navigator.pop(context, 'OK'),
-                                      child: Text('OK'))
+                                      child: Text('ปิด'))
                                 ],
                               ));
                     },
