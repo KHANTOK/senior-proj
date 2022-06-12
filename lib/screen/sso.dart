@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
@@ -34,9 +35,20 @@ class _SSOScreenState extends State<SSOScreen> {
         _controller
             .runJavascriptReturningResult("document.documentElement.innerHTML")
             .then((value) {
-          var data =
-              value.toString().substring(19, value.toString().length - 7);
-          Map<String, dynamic> map = json.decode(data);
+          String os = Platform.operatingSystem;
+          String data = "";
+          if (Platform.isIOS) {
+            data = value.toString().substring(19, value.toString().length - 7);
+            print('is a IOS');
+          } else {
+            var response = jsonDecode(value);
+            data = response
+                .toString()
+                .substring(19, response.toString().length - 7);
+            print('is not a IOS');
+          }
+          Map<String, dynamic> map = jsonDecode(data);
+          print(map);
 
           if (map['message'] == "success") {
             if (storage.getItem('admin')) {

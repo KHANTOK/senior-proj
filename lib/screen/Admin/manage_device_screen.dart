@@ -148,8 +148,8 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
             width: 20,
           ),
           SizedBox(
-            width: 80,
-            height: 80,
+            width: MediaQuery.of(context).size.width * 0.2,
+            height: MediaQuery.of(context).size.width * 0.2,
             child: AvatarView(
               radius: 40,
               borderColor: Colors.white,
