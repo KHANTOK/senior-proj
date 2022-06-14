@@ -120,6 +120,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
         appBar: AppBar(
           titleSpacing: 2,
@@ -127,7 +128,7 @@ class _SearchScreenState extends State<SearchScreen> {
           //centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
-          title: showTitle(),
+          title: showTitle(size),
           actions: [
             IconButton(
                 icon: const Icon(Icons.account_circle),
@@ -199,6 +200,10 @@ class _SearchScreenState extends State<SearchScreen> {
                             border: OutlineInputBorder(),
                             labelText: has_faculty ? faculty_name : 'ค้นหา',
                             hintText: has_faculty ? faculty_name : 'หอสมุดกลาง',
+                            hintStyle: TextStyle(
+                                fontSize: size,
+                                fontWeight: FontWeight.w300,
+                                color: Colors.grey[400]),
                             suffixIcon: Icon(Icons.search),
                             contentPadding: EdgeInsets.all(15)),
                       ),
@@ -244,6 +249,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget cardItem(
       String img, String name, String totalAvailable, String duration) {
+    double sizeName = MediaQuery.of(context).size.width * 0.05;
+    double sizeDuration = MediaQuery.of(context).size.width * 0.04;
+    double sizeTotal = MediaQuery.of(context).size.width * 0.045;
     return Container(
       height: MediaQuery.of(context).size.height * 0.18,
       width: MediaQuery.of(context).size.width,
@@ -321,21 +329,21 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 Text(
                   name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: accentColor,
-                    fontSize: 20,
+                    fontSize: sizeName,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   'ระยะการยืม : ' + duration,
-                  style: const TextStyle(color: timeColor, fontSize: 14),
+                  style: TextStyle(color: timeColor, fontSize: sizeDuration),
                 ),
                 Text(
                   'คงเหลือทั้งหมด : ' + totalAvailable.toString(),
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: remainColor,
-                      fontSize: 18,
+                      fontSize: sizeTotal,
                       fontWeight: FontWeight.bold),
                 )
               ],

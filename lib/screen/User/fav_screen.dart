@@ -103,6 +103,9 @@ class _FavScreenState extends State<FavScreen> {
 
   Widget cardItem(
       String img, String name, String totalAvailable, String duration) {
+    double sizeName = MediaQuery.of(context).size.width * 0.05;
+    double sizeDuration = MediaQuery.of(context).size.width * 0.04;
+    double sizeTotal = MediaQuery.of(context).size.width * 0.045;
     return Container(
       height: MediaQuery.of(context).size.height * 0.18,
       margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -163,19 +166,19 @@ class _FavScreenState extends State<FavScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(name,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: accentColor,
-                        fontSize: 20,
+                        fontSize: sizeName,
                         fontWeight: FontWeight.bold)),
                 Text(
                   'ระยะการยืม : ' + duration,
-                  style: const TextStyle(color: timeColor, fontSize: 14),
+                  style: TextStyle(color: timeColor, fontSize: sizeDuration),
                 ),
                 Text(
                   'คงเหลือทั้งหมด : ' + totalAvailable.toString(),
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: remainColor,
-                      fontSize: 18,
+                      fontSize: sizeTotal,
                       fontWeight: FontWeight.bold),
                 )
               ],

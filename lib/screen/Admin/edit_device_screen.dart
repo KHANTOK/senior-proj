@@ -60,14 +60,16 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width * 0.05;
+    double size1 = MediaQuery.of(context).size.width * 0.045;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
+        title: Text(
           "แก้ไขอุปกรณ์",
-          style: TextStyle(color: Colors.black, fontSize: 22),
+          style: TextStyle(color: Colors.black, fontSize: size),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -116,10 +118,11 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                     const SizedBox(height: 30),
                     TextFormField(
                       controller: TextEditingController(text: widget.bib_id),
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'BIB ID',
-                        labelStyle: TextStyle(color: kPrimaryColor),
+                        labelStyle:
+                            TextStyle(color: kPrimaryColor, fontSize: size1),
                       ),
                       onChanged: (value) {
                         setState(() {
@@ -130,10 +133,11 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                     const SizedBox(height: 20),
                     isOnChange
                         ? TextFormField(
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'ชื่ออุปกรณ์',
-                              labelStyle: TextStyle(color: kPrimaryColor),
+                              labelStyle: TextStyle(
+                                  color: kPrimaryColor, fontSize: size1),
                             ),
                             onChanged: (value) {
                               setState(() {
@@ -145,10 +149,11 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                         : TextFormField(
                             controller: TextEditingController(
                                 text: fromApi ? name : widget.device_name),
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'ชื่ออุปกรณ์',
-                              labelStyle: TextStyle(color: kPrimaryColor),
+                              labelStyle: TextStyle(
+                                  color: kPrimaryColor, fontSize: size1),
                             ),
                             onChanged: (value) {
                               setState(() {
@@ -158,10 +163,10 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                             },
                           ),
                     const SizedBox(height: 20),
-                    const Text(
+                    Text(
                       "ผู้มีสิทธิ์ยืม",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: size1, fontWeight: FontWeight.bold),
                     ),
                     Wrap(
                       spacing: 15.0,
@@ -174,18 +179,18 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                     const SizedBox(height: 20),
                     Row(
                       children: <Widget>[
-                        const Text(
+                        Text(
                           "ระยะการยืม",
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: size1, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(width: 20),
                         Flexible(
                           child: TextFormField(
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 hintText: '1',
-                                hintStyle: TextStyle(fontSize: 16),
+                                hintStyle: TextStyle(fontSize: size1),
                                 // change the TextField height
                                 contentPadding: EdgeInsets.all(10)),
                             initialValue: duration,
@@ -197,7 +202,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                           ),
                         ),
                         const SizedBox(width: 15),
-                        const Text("วัน", style: TextStyle(fontSize: 16)),
+                        Text("วัน", style: TextStyle(fontSize: size1)),
                       ],
                     ),
                     const SizedBox(height: 50),
@@ -289,10 +294,12 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
   }
 
   Widget selectedChoice(String item) {
+    double size1 = MediaQuery.of(context).size.width * 0.045;
+
     return ChoiceChip(
       label: Text(item),
-      labelStyle: const TextStyle(
-          color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold),
+      labelStyle: TextStyle(
+          color: Colors.white, fontSize: size1, fontWeight: FontWeight.bold),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
       ),

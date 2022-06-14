@@ -31,6 +31,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width * 0.05;
+    double size1 = MediaQuery.of(context).size.width * 0.045;
+    double size2 = MediaQuery.of(context).size.width * 0.03;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: pfColor, elevation: 0,
@@ -88,17 +91,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Text(
                   "สวัสดี " + widget.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
+                    fontSize: size,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   widget.email,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: size1,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -109,17 +112,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
-                                title: const ListTile(
+                                title: ListTile(
                                   title: Text(
                                     'ติดต่อเจ้าหน้าที่',
-                                    style: TextStyle(fontSize: 24),
+                                    style: TextStyle(fontSize: size),
                                   ),
                                   subtitle: Text(
                                     'สำนักหอสมุด มหาวิทยาลัยขอนแก่น 123 ถนนมิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น 40002',
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(fontSize: size1),
                                   ),
                                 ),
-
                                 content: ListTile(
                                   title: Text('หมายเลขโทรศัพท์ :'),
                                   trailing: TextButton(
@@ -164,10 +166,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Icons.home,
                             color: accentColor,
                           ),
-                          title: const Text("หน้าหลักแอดมิน",
+                          title: Text("หน้าหลักแอดมิน",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: size1,
                                   fontWeight: FontWeight.bold)),
                           onTap: () {
                             Navigator.push(
@@ -197,10 +199,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Icons.favorite,
                             color: accentColor,
                           ),
-                          title: const Text("รายการโปรด",
+                          title: Text("รายการโปรด",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: size1,
                                   fontWeight: FontWeight.bold)),
                           onTap: () {
                             Navigator.push(
@@ -225,20 +227,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: <Widget>[
                       ExpansionTile(
                           title: Row(
-                            children: const <Widget>[
-                              Icon(
+                            children: <Widget>[
+                              const Icon(
                                 Icons.report_outlined,
                                 color: accentColor,
                               ),
-                              SizedBox(width: 30),
+                              const SizedBox(width: 30),
                               Text("เกี่ยวกับแอปพลิเคชัน",
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 20,
+                                      fontSize: size1,
                                       fontWeight: FontWeight.bold)),
                             ],
                           ),
-                          children: const <Widget>[
+                          children: <Widget>[
                             ListTile(
                               // leading: Icon(
                               //   Icons.report_outlined,
@@ -247,7 +249,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: Text("แอปพลิเคชันตรวจสอบอุปกรณ์เพื่อขอยืม",
                                   style: TextStyle(
                                       color: kPrimaryColor,
-                                      fontSize: 16,
+                                      fontSize: size1,
                                       fontWeight: FontWeight.bold)),
                               subtitle: Padding(
                                 padding: EdgeInsets.only(left: 15),
@@ -256,7 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     maxLines: 7,
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 14,
+                                      fontSize: size1,
                                     )),
                               ),
                             ),
@@ -268,7 +270,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: Text("ใบอนุญาต",
                                   style: TextStyle(
                                       color: kPrimaryColor,
-                                      fontSize: 16,
+                                      fontSize: size1,
                                       fontWeight: FontWeight.bold)),
                               subtitle: Padding(
                                 padding: EdgeInsets.only(left: 15),
@@ -277,7 +279,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     // maxLines: 7,
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 14,
+                                      fontSize: size1,
                                     )),
                               ),
                             ),
@@ -297,7 +299,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     // maxLines: 7,
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 14,
+                                      fontSize: size1,
                                     )),
                               ),
                             ),

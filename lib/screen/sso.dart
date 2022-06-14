@@ -50,6 +50,7 @@ class _SSOScreenState extends State<SSOScreen> {
           Map<String, dynamic> map = jsonDecode(data);
           print(map);
 
+          // Admin
           if (map['message'] == "success") {
             if (storage.getItem('admin')) {
               storage.setItem('token', token);
@@ -62,7 +63,9 @@ class _SSOScreenState extends State<SSOScreen> {
                   ),
                 ),
               );
-            } else {
+            }
+            // User
+            else {
               storage.setItem('token', token);
               Navigator.push(
                 context,

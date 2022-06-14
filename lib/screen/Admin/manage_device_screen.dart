@@ -62,14 +62,15 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
+        title: Text(
           "จัดการอุปกรณ์",
-          style: TextStyle(color: Colors.black, fontSize: 22),
+          style: TextStyle(color: Colors.black, fontSize: size),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -126,6 +127,9 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
 
   Widget cardItem(String img, String bib_id, String name, String accession,
       String duration, bool unlock, int index) {
+    double sizeName = MediaQuery.of(context).size.width * 0.05;
+    double sizeDuration = MediaQuery.of(context).size.width * 0.04;
+    double sizeTotal = MediaQuery.of(context).size.width * 0.045;
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -177,9 +181,9 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: Text(
                   'BIB ID : ' + bib_id,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: accentColor,
-                    fontSize: 20,
+                    fontSize: sizeName,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -188,9 +192,9 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: Text(
                   name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: accentColor,
-                    fontSize: 20,
+                    fontSize: sizeName,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -199,13 +203,13 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                 width: MediaQuery.of(context).size.width * 0.55,
                 child: Text(
                   'ผู้มีสิทธิ์ยืม : ' + accession,
-                  style: const TextStyle(color: timeColor, fontSize: 14),
+                  style: TextStyle(color: timeColor, fontSize: sizeDuration),
                 ),
               ),
               Container(
                 child: Text(
                   'ระยะการยืม : ' + duration,
-                  style: const TextStyle(color: timeColor, fontSize: 14),
+                  style: TextStyle(color: timeColor, fontSize: sizeDuration),
                 ),
               ),
               Container(
@@ -229,7 +233,8 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                                         duration: duration,
                                       )));
                         },
-                        child: Text('แก้ไข')),
+                        child: Text('แก้ไข',
+                            style: TextStyle(fontSize: sizeDuration))),
                     Transform.scale(
                       scale: 0.7,
                       child: CupertinoSwitch(

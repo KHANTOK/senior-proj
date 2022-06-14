@@ -46,14 +46,16 @@ class _ManageAdminScreenState extends State<ManageAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width * 0.05;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
+        title: Text(
           "จัดการผู้ดูแล",
-          style: TextStyle(color: Colors.black, fontSize: 22),
+          style: TextStyle(color: Colors.black, fontSize: size),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -102,15 +104,16 @@ class _ManageAdminScreenState extends State<ManageAdminScreen> {
   }
 
   Widget adminCard(String name, String email) {
+    double size1 = MediaQuery.of(context).size.width * 0.045;
     return Card(
       color: Colors.white,
       elevation: 6,
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: ListTile(
         title: Text(name,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black,
-              fontSize: 18,
+              fontSize: size1,
             )),
         trailing: IconButton(
           icon: const Icon(

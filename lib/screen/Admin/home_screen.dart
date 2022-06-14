@@ -27,6 +27,8 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width * 0.05;
+    double size1 = MediaQuery.of(context).size.width * 0.045;
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 2,
@@ -62,7 +64,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                 );
               })
         ],
-        title: showTitle(),
+        title: showTitle(size),
         // remove back button
         automaticallyImplyLeading: false,
       ),
@@ -83,10 +85,10 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         Icons.person_add,
                         color: kPrimaryColor,
                       ),
-                      title: const Text("จัดการบัญชี",
+                      title: Text("จัดการบัญชี",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize: size1,
                               fontWeight: FontWeight.bold)),
                       onTap: () {
                         Navigator.push(
@@ -113,10 +115,10 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         Icons.settings,
                         color: kPrimaryColor,
                       ),
-                      title: const Text("จัดการอุปกรณ์",
+                      title: Text("จัดการอุปกรณ์",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize: size1,
                               fontWeight: FontWeight.bold)),
                       onTap: () {
                         Navigator.push(
@@ -133,60 +135,6 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                   ],
                 ),
               ),
-              // Card(
-              //   color: Colors.white,
-              //   elevation: 6,
-              //   margin: const EdgeInsets.symmetric(vertical: 10),
-              //   child: ExpansionTile(
-              //       title: Row(
-              //         children: const <Widget>[
-              //           Icon(
-              //             Icons.perm_contact_calendar,
-              //             color: kPrimaryColor,
-              //           ),
-              //           SizedBox(width: 30),
-              //           Text("รายชื่อผู้ดูแล",
-              //               style: TextStyle(
-              //                   color: Colors.black,
-              //                   fontSize: 18,
-              //                   fontWeight: FontWeight.bold)),
-              //         ],
-              //       ),
-              //       children: [
-              //         // ListView.builder(
-              //         //     itemBuilder: (context, index) => Column(
-              //         //           children: [
-              //         //             Text("555555555",
-              //         //                 style: TextStyle(
-              //         //                     color: Colors.black,
-              //         //                     fontSize: 16,
-              //         //                     fontWeight: FontWeight.bold)),
-              //         //           ],
-              //         //         ))
-              //         ListTile(
-              //           title: Column(
-              //             crossAxisAlignment: CrossAxisAlignment.start,
-              //             children: const <Widget>[
-              //               Text('มานี มานะ',
-              //                   style: TextStyle(
-              //                       color: Colors.black,
-              //                       fontSize: 16,
-              //                       fontWeight: FontWeight.bold)),
-              //               Text("โกโกวา ที่หนูอยากได้",
-              //                   style: TextStyle(
-              //                       color: Colors.black,
-              //                       fontSize: 16,
-              //                       fontWeight: FontWeight.bold)),
-              //               Text("แก้วกล้า ชูใจ",
-              //                   style: TextStyle(
-              //                       color: Colors.black,
-              //                       fontSize: 16,
-              //                       fontWeight: FontWeight.bold)),
-              //             ],
-              //           ),
-              //         ),
-              //       ]),
-              // )
             ],
           ),
         ),

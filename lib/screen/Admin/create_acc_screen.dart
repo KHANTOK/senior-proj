@@ -27,14 +27,15 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
-          title: const Text(
+          title: Text(
             "จัดการผู้ดูแล",
-            style: TextStyle(color: Colors.black, fontSize: 22),
+            style: TextStyle(color: Colors.black, fontSize: size),
           ),
           leading: IconButton(
             icon: const Icon(
@@ -60,10 +61,10 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                 const SizedBox(height: 15),
                 TextFormField(
                   controller: nameController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'ชื่อและนามสกุล',
-                    labelStyle: TextStyle(color: kPrimaryColor),
+                    labelStyle: TextStyle(color: kPrimaryColor, fontSize: size),
                     helperText: 'ตัวอย่าง : มาณี อุดมสุข',
                   ),
                   validator: (value) {
@@ -76,10 +77,11 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                 const SizedBox(height: 15),
                 TextFormField(
                   controller: emailController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'อีเมล',
-                      labelStyle: TextStyle(color: kPrimaryColor),
+                      labelStyle:
+                          TextStyle(color: kPrimaryColor, fontSize: size),
                       helperText: 'ตัวอย่าง : manee@kku.ac.th'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
