@@ -5,13 +5,9 @@ import '../http/client.dart';
 import '../model/AccountModel.dart';
 
 Future<AccountModel> LoginService(String email, String password) async {
-  Map<String, dynamic> queryParameters = {
-    'email': email,
-    'password': password,
-  };
-  final uri = Uri.https(Host, '/login', queryParameters);
+  final String url = Host + "/login/?email=" + email + "&password=" + password;
   final response = await http.get(
-    uri,
+    Uri.parse(url),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -24,13 +20,10 @@ Future<dynamic> CreateAccountService(
   String email,
 ) async {
   try {
-    Map<String, dynamic> queryParameters = {
-      'name': name,
-      'email': email,
-    };
-    final uri = Uri.https(Host, '/createAccount', queryParameters);
+    final String url =
+        Host + "/createAccount/?name=" + name + "&email=" + email;
     final response = await http.get(
-      uri,
+      Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -43,9 +36,9 @@ Future<dynamic> CreateAccountService(
 
 Future<dynamic> GetAccountService() async {
   try {
-    final uri = Uri.https(Host, '/account');
+    final String url = Host + "/account";
     final response = await http.get(
-      uri,
+      Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -61,16 +54,14 @@ Future<dynamic> DeleteAccountService(
   String email,
 ) async {
   try {
-    Map<String, dynamic> queryParameters = {
-      'email': email,
-    };
-    final uri = Uri.https(Host, '/delete/account', queryParameters);
+    final String url = Host + "/delete/account/?email=" + email;
     final response = await http.get(
-      uri,
+      Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+
     return "success";
   } catch (e) {
     print(e);

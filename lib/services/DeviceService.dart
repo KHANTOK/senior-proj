@@ -7,9 +7,9 @@ import '../model/DeviceModel.dart';
 import '../model/EditDeviceModel.dart';
 
 Future<List<DeviceModel>> DeviceService() async {
-  final uri = Uri.https(Host, '/devices');
+  final String url = Host + "/devices";
   final response = await http.get(
-    uri,
+    Uri.parse(url),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -20,13 +20,14 @@ Future<List<DeviceModel>> DeviceService() async {
 
 Future<String> SaveDeviceFromAPIKKUService(
     String bib_id, String device_name) async {
-  Map<String, dynamic> queryParameters = {
-    'bib_id': bib_id,
-    'device_name': device_name,
-  };
-  final uri = Uri.https(Host, '/importDevices', queryParameters);
+  final String url = Host +
+      "/importDevices/" +
+      "?bib_id=" +
+      bib_id +
+      "&device_name=" +
+      device_name;
   final response = await http.get(
-    uri,
+    Uri.parse(url),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -35,12 +36,9 @@ Future<String> SaveDeviceFromAPIKKUService(
 }
 
 Future<DeviceDetailModel> DeviceDetailService(String device) async {
-  Map<String, dynamic> queryParameters = {
-    'device': device,
-  };
-  final uri = Uri.https(Host, '/deviceDetail', queryParameters);
+  final String url = Host + "/deviceDetail/?device=" + device;
   final response = await http.get(
-    uri,
+    Uri.parse(url),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -49,12 +47,9 @@ Future<DeviceDetailModel> DeviceDetailService(String device) async {
 }
 
 Future<List<DeviceModel>> DeviceFilterByFacultyService(String faculty) async {
-  Map<String, dynamic> queryParameters = {
-    'faculty': faculty,
-  };
-  final uri = Uri.https(Host, '/deviceFilterByFaculty', queryParameters);
+  final String url = Host + "/deviceFilterByFaculty/?faculty=" + faculty;
   final response = await http.get(
-    uri,
+    Uri.parse(url),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -64,12 +59,9 @@ Future<List<DeviceModel>> DeviceFilterByFacultyService(String faculty) async {
 }
 
 Future<EditDeviceModel> EditDeviceCallAPIService(String bib_id) async {
-  Map<String, dynamic> queryParameters = {
-    'bib_id': bib_id,
-  };
-  final uri = Uri.https(Host, '/deviceByBIBID', queryParameters);
+  final String url = Host + "/deviceByBIBID/?bib_id=" + bib_id;
   final response = await http.get(
-    uri,
+    Uri.parse(url),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -79,15 +71,17 @@ Future<EditDeviceModel> EditDeviceCallAPIService(String bib_id) async {
 
 Future<dynamic> updateDeviceService(String bib_id, String device_name,
     String accession, String duration) async {
-  Map<String, dynamic> queryParameters = {
-    'bib_id': bib_id,
-    'device_name': device_name,
-    'accession': accession,
-    'duration': duration,
-  };
-  final uri = Uri.https(Host, '/update/device', queryParameters);
+  final String url = Host +
+      "/update/device/?bib_id=" +
+      bib_id +
+      "&device_name=" +
+      device_name +
+      "&accession=" +
+      accession +
+      "&duration=" +
+      duration;
   final response = await http.get(
-    uri,
+    Uri.parse(url),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
