@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:proj/color.dart';
 import 'package:proj/components/Loading.dart';

@@ -1,1 +1,1 @@
-String Host = "https://libapi2.kku.ac.th/check-device-api";
+String Host = "https://libdevices.kku.ac.th/check-device-api";
