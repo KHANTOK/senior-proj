@@ -27,15 +27,17 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width * 0.05;
+    double size20 = MediaQuery.of(context).size.width * 0.05;
+    double size18 = MediaQuery.of(context).size.width * 0.045;
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
           title: Text(
-            "จัดการผู้ดูแล",
-            style: TextStyle(color: Colors.black, fontSize: size),
+            "เพิ่มผู้ดูแล",
+            style: TextStyle(color: Colors.black, fontSize: size20),
           ),
           leading: IconButton(
             icon: const Icon(
@@ -64,7 +66,7 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'ชื่อและนามสกุล',
-                    labelStyle: TextStyle(color: kPrimaryColor, fontSize: size),
+                    labelStyle: TextStyle(color: kPrimaryColor, fontSize: size18),
                     helperText: 'ตัวอย่าง : มาณี อุดมสุข',
                   ),
                   validator: (value) {
@@ -79,9 +81,9 @@ class _CreateAccScreenState extends State<CreateAccScreen> {
                   controller: emailController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'อีเมล',
+                      labelText: 'อีเมล์',
                       labelStyle:
-                          TextStyle(color: kPrimaryColor, fontSize: size),
+                          TextStyle(color: kPrimaryColor, fontSize: size18),
                       helperText: 'ตัวอย่าง : manee@kku.ac.th'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {

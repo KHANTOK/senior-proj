@@ -67,7 +67,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width * 0.05;
+    double size20 = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
       appBar: widget.admin == null
           ? AppBar(
@@ -75,7 +75,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
               backgroundColor: Colors.white,
               elevation: 0,
               centerTitle: true,
-              title: showTitle(size),
+              title: showTitle(size20),
               leading: IconButton(
                 icon: const Icon(
                   Icons.arrow_back_ios_new,
@@ -121,7 +121,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
               backgroundColor: Colors.white,
               elevation: 0,
               centerTitle: true,
-              title: showTitle(size),
+              title: showTitle(size20),
               leading: IconButton(
                 icon: const Icon(
                   Icons.arrow_back_ios_new,

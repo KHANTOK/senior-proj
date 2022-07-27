@@ -120,7 +120,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width * 0.05;
+    double size20 = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
         appBar: AppBar(
           titleSpacing: 2,
@@ -128,7 +128,7 @@ class _SearchScreenState extends State<SearchScreen> {
           //centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
-          title: showTitle(size),
+          title: showTitle(size20),
           actions: [
             IconButton(
                 icon: const Icon(Icons.account_circle),
@@ -201,7 +201,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             labelText: has_faculty ? faculty_name : 'ค้นหา',
                             hintText: has_faculty ? faculty_name : 'หอสมุดกลาง',
                             hintStyle: TextStyle(
-                                fontSize: size,
+                                fontSize: size20,
                                 fontWeight: FontWeight.w300,
                                 color: Colors.grey[400]),
                             suffixIcon: Icon(Icons.search),

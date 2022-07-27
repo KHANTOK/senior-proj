@@ -60,8 +60,8 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width * 0.05;
-    double size1 = MediaQuery.of(context).size.width * 0.045;
+    double size18 = MediaQuery.of(context).size.width * 0.045;
+    double size20 = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -69,7 +69,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
         elevation: 0,
         title: Text(
           "แก้ไขอุปกรณ์",
-          style: TextStyle(color: Colors.black, fontSize: size),
+          style: TextStyle(color: Colors.black, fontSize: size20),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -122,7 +122,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                         border: OutlineInputBorder(),
                         labelText: 'BIB ID',
                         labelStyle:
-                            TextStyle(color: kPrimaryColor, fontSize: size1),
+                            TextStyle(color: kPrimaryColor, fontSize: size18),
                       ),
                       onChanged: (value) {
                         setState(() {
@@ -137,7 +137,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                               border: OutlineInputBorder(),
                               labelText: 'ชื่ออุปกรณ์',
                               labelStyle: TextStyle(
-                                  color: kPrimaryColor, fontSize: size1),
+                                  color: kPrimaryColor, fontSize: size18),
                             ),
                             onChanged: (value) {
                               setState(() {
@@ -153,7 +153,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                               border: OutlineInputBorder(),
                               labelText: 'ชื่ออุปกรณ์',
                               labelStyle: TextStyle(
-                                  color: kPrimaryColor, fontSize: size1),
+                                  color: kPrimaryColor, fontSize: size18),
                             ),
                             onChanged: (value) {
                               setState(() {
@@ -166,7 +166,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                     Text(
                       "ผู้มีสิทธิ์ยืม",
                       style: TextStyle(
-                          fontSize: size1, fontWeight: FontWeight.bold),
+                          fontSize: size18, fontWeight: FontWeight.bold),
                     ),
                     Wrap(
                       spacing: 15.0,
@@ -182,7 +182,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                         Text(
                           "ระยะการยืม",
                           style: TextStyle(
-                              fontSize: size1, fontWeight: FontWeight.bold),
+                              fontSize: size18, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(width: 20),
                         Flexible(
@@ -190,7 +190,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 hintText: '1',
-                                hintStyle: TextStyle(fontSize: size1),
+                                hintStyle: TextStyle(fontSize: size18),
                                 // change the TextField height
                                 contentPadding: EdgeInsets.all(10)),
                             initialValue: duration,
@@ -202,7 +202,7 @@ class _EditDeviceScreenState extends State<EditDeviceScreen> {
                           ),
                         ),
                         const SizedBox(width: 15),
-                        Text("วัน", style: TextStyle(fontSize: size1)),
+                        Text("วัน", style: TextStyle(fontSize: size18)),
                       ],
                     ),
                     const SizedBox(height: 50),

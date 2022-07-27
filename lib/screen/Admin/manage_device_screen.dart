@@ -62,7 +62,7 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width * 0.05;
+    double size20 = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -70,7 +70,7 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
         elevation: 0,
         title: Text(
           "จัดการอุปกรณ์",
-          style: TextStyle(color: Colors.black, fontSize: size),
+          style: TextStyle(color: Colors.black, fontSize: size20),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -217,24 +217,43 @@ class _ManageDeviceScreenState extends State<ManageDeviceScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(
-                        onPressed: () {
-                          print(img);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditDeviceScreen(
-                                        name: widget.name,
-                                        email: widget.email,
-                                        img: img,
-                                        bib_id: bib_id,
-                                        device_name: name,
-                                        accession: accession,
-                                        duration: duration,
-                                      )));
-                        },
-                        child: Text('แก้ไข',
-                            style: TextStyle(fontSize: sizeDuration))),
+                    // TextButton(
+                    //     onPressed: () {
+                    //       print(img);
+                    //       Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (context) => EditDeviceScreen(
+                    //                     name: widget.name,
+                    //                     email: widget.email,
+                    //                     img: img,
+                    //                     bib_id: bib_id,
+                    //                     device_name: name,
+                    //                     accession: accession,
+                    //                     duration: duration,
+                    //                   )));
+                    //     },
+                    //     child: Text('แก้ไข',
+                    //         style: TextStyle(fontSize: sizeDuration))),
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      // color: Colors.red,
+                      onPressed: () {
+                        print(img);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditDeviceScreen(
+                                      name: widget.name,
+                                      email: widget.email,
+                                      img: img,
+                                      bib_id: bib_id,
+                                      device_name: name,
+                                      accession: accession,
+                                      duration: duration,
+                                    )));
+                      },
+                    ),
                     Transform.scale(
                       scale: 0.7,
                       child: CupertinoSwitch(

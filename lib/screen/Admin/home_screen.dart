@@ -27,8 +27,8 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width * 0.05;
-    double size1 = MediaQuery.of(context).size.width * 0.045;
+    double size18 = MediaQuery.of(context).size.width * 0.045;
+    double size20 = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 2,
@@ -64,7 +64,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                 );
               })
         ],
-        title: showTitle(size),
+        title: showTitle(size20),
         // remove back button
         automaticallyImplyLeading: false,
       ),
@@ -85,10 +85,10 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         Icons.person_add,
                         color: kPrimaryColor,
                       ),
-                      title: Text("จัดการบัญชี",
+                      title: Text("จัดการผู้ดูแล",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: size1,
+                              fontSize: size18,
                               fontWeight: FontWeight.bold)),
                       onTap: () {
                         Navigator.push(
@@ -118,7 +118,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                       title: Text("จัดการอุปกรณ์",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: size1,
+                              fontSize: size18,
                               fontWeight: FontWeight.bold)),
                       onTap: () {
                         Navigator.push(

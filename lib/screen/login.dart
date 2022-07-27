@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             Text(
-                              "มหาวิทยาลัยขอนแก่น",
+                              "สำนักหอสมุด มหาวิทยาลัยขอนแก่น",
                               style:
                                   TextStyle(fontSize: 14, color: Colors.blue),
                             ),

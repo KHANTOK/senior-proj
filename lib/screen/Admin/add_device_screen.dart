@@ -36,8 +36,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width * 0.05;
-    double size1 = MediaQuery.of(context).size.width * 0.045;
+    double size18 = MediaQuery.of(context).size.width * 0.045;
+    double size20 = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -45,7 +45,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         elevation: 0,
         title: Text(
           "เพิ่มอุปกรณ์",
-          style: TextStyle(color: Colors.black, fontSize: size),
+          style: TextStyle(color: Colors.black, fontSize: size20),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -78,7 +78,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     border: OutlineInputBorder(),
                     labelText: 'BIB ID',
                     labelStyle:
-                        TextStyle(color: kPrimaryColor, fontSize: size1),
+                        TextStyle(color: kPrimaryColor, fontSize: size18),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -99,7 +99,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     border: OutlineInputBorder(),
                     labelText: 'ชื่ออุปกรณ์',
                     labelStyle:
-                        TextStyle(color: kPrimaryColor, fontSize: size1),
+                        TextStyle(color: kPrimaryColor, fontSize: size18),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -112,7 +112,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 Text(
                   "ผู้มีสิทธิ์ยืม",
                   style:
-                      TextStyle(fontSize: size1, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: size18, fontWeight: FontWeight.bold),
                 ),
                 Wrap(
                   spacing: 15.0,
@@ -128,7 +128,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     Text(
                       "ระยะการยืม",
                       style: TextStyle(
-                          fontSize: size1, fontWeight: FontWeight.bold),
+                          fontSize: size18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 20),
                     Flexible(
@@ -139,7 +139,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: '1',
-                            hintStyle: TextStyle(fontSize: size1),
+                            hintStyle: TextStyle(fontSize: size18),
                             // change the TextField height
                             contentPadding: EdgeInsets.all(10)),
                         validator: (value) {
@@ -151,7 +151,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       ),
                     ),
                     const SizedBox(width: 15),
-                    Text("วัน", style: TextStyle(fontSize: size1)),
+                    Text("วัน", style: TextStyle(fontSize: size18)),
                   ],
                 ),
                 const SizedBox(height: 50),

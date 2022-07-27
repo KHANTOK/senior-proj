@@ -44,7 +44,7 @@ class _ManageAdminScreenState extends State<ManageAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width * 0.05;
+    double size20 = MediaQuery.of(context).size.width * 0.05;
 
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +53,7 @@ class _ManageAdminScreenState extends State<ManageAdminScreen> {
         elevation: 0,
         title: Text(
           "จัดการผู้ดูแล",
-          style: TextStyle(color: Colors.black, fontSize: size),
+          style: TextStyle(color: Colors.black, fontSize: size20),
         ),
         leading: IconButton(
           icon: const Icon(
